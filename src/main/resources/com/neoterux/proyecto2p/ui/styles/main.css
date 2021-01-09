@@ -1,0 +1,33 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 9, 2021, 2:06:33 PM
+    Author     : neoterux
+*/
+
+.root {
+    
+    -fx-background-image: url("../res/main_background.jpg");
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
+.title {
+    
+    -fx-font-size: 24px;
+
+    
+}
+
+.subtitle {
+    -fx-font-sixe: 18px;
+}
+
+
+.button {
+    -fx-min-width: 210px;
+}
