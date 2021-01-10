@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="640.0" stylesheets="@styles/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.proyecto2p.ui.controllers.MainController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="640.0" stylesheets="@styles/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.proyecto2p.ui.controllers.MainController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0" prefWidth="100.0" />
@@ -30,8 +30,8 @@
       </VBox>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" GridPane.rowIndex="2">
          <children>
-            <Button mnemonicParsing="false" text="Consulta tu zona" />
-            <Button mnemonicParsing="false" text="Consulta datos mundiales" />
+            <Button mnemonicParsing="false" onAction="#zoneAction" text="Consulta tu zona" />
+            <Button mnemonicParsing="false" onAction="#globalAction" text="Consulta datos mundiales" />
          </children>
          <opaqueInsets>
             <Insets />
