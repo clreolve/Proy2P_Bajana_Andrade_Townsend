@@ -19,15 +19,22 @@ and open the template in the editor.
 .title {
     
     -fx-font-size: 24px;
+    -fx-text-fill: #67C322;
+    -fx-font-weight: bold; 
 
     
 }
 
 .subtitle {
     -fx-font-sixe: 18px;
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
 }
 
 
 .button {
     -fx-min-width: 210px;
+    -fx-text-fill: white;
+    -fx-background-color: #303030;
+    -fx-background-radius: 30px;
 }
