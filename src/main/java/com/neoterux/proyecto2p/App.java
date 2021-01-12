@@ -59,7 +59,7 @@ public class App extends Application {
     
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         logger.info("Starting application");
         /*
             BASE FX APPLICATION
@@ -67,14 +67,18 @@ public class App extends Application {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();*/
+        try {
+            scene = new Scene(loadFXML("ui/main"));
+            stage.setScene(scene);
+            stage.sizeToScene();
+            stage.setMinWidth(WIDTH);
+            stage.setMinHeight(HEIGHT);
+
+            stage.show();
+        } catch (IOException ex) {
+            logger.error(ex, ex.getCause());
+        }
         
-        scene = new Scene(loadFXML("ui/main"));
-        stage.setScene(scene);
-        stage.sizeToScene();
-        stage.setMinWidth(WIDTH);
-        stage.setMinHeight(HEIGHT);
-        
-        stage.show();
     }
 
     @Override
@@ -90,7 +94,7 @@ public class App extends Application {
         scene.setRoot(loadFXML(fxml));
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException {
         logger.debug("loading fxml at: " + fxml); 
         var fxml_url = App.class.getResource(fxml + ".fxml"); 
         FXMLLoader fxmlLoader = new FXMLLoader(fxml_url);
