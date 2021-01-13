@@ -46,21 +46,21 @@ import javax.imageio.ImageIO;
  *
  * @author neoterux
  */
-public class MainController extends DownloadTask implements Initializable{
-    
+public class MainController extends DownloadTask implements Initializable {
+
     private static Logger logger = LogManager.getLogger(MainController.class);
-    
+
     private DownloadController download;
     private Stage downloadStage;
     private final Map<String, Locale> localeMap;
-    
+
     /**
      * Configura la escena del Main
-     * 
+     *
      */
     public MainController() {
         try {
-            var loader = new FXMLLoader(App.class.getResource("ui/download_message.fxml"));          
+            var loader = new FXMLLoader(App.class.getResource("ui/download_message.fxml"));
             this.downloadStage = new Stage();
             this.downloadStage.setAlwaysOnTop(true);
             this.downloadStage.initModality(Modality.APPLICATION_MODAL);
@@ -68,34 +68,32 @@ public class MainController extends DownloadTask implements Initializable{
             this.downloadStage.setScene(new Scene(loader.load()));
             download = loader.getController();
 
-            
         } catch (IOException ex) {
             logger.error(ex);
         }
         //Configure locale translations
-            final String[] countries = Locale.getISOCountries();
-            localeMap = new HashMap<>(countries.length);
-            Arrays.stream(countries).forEach((t) -> {
-                var loc = new Locale("", t);
-                localeMap.put(loc.getISO3Country().toUpperCase(), loc); 
-            });
-        
+        final String[] countries = Locale.getISOCountries();
+        localeMap = new HashMap<>(countries.length);
+        Arrays.stream(countries).forEach((t) -> {
+            var loc = new Locale("", t);
+            localeMap.put(loc.getISO3Country().toUpperCase(), loc);
+        });
+
     }
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new Thread(App.appThreadGroup, this, "DownloadFlagThread").start();
-       
+
     }
-    
+
     @FXML
     void globalAction(ActionEvent event) {
-        
-        try{
+
+        try {
             // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML
             App.setRoot("ui/test_imgs", "");
-        } catch(IOException | IllegalStateException ioe) {
+        } catch (IOException | IllegalStateException ioe) {
             new Alert(Alert.AlertType.ERROR, "Error al cargar FXML, revisa la consola").show();
             logger.error(ioe);
             //ioe.printStackTrace();
@@ -105,67 +103,66 @@ public class MainController extends DownloadTask implements Initializable{
 
     @FXML
     void zoneAction(ActionEvent event) {
-        
-        try{
-            App.setRoot("ui/dashboard", "");
-        } catch(IOException | IllegalStateException ioe) {
+
+        try {
+            App.setRoot("ui/VentanaMapa", " ");
+        } catch (IOException | IllegalStateException ioe) {
             logger.error(ioe);
             new Alert(Alert.AlertType.ERROR, "Error al cargar FXML, revisa la consola").show();
-            
+
             //ioe.printStackTrace();
         }
 
     }
-    
+
     private synchronized static String getFlagUrl(String iso_code) {
-        
+
         return "https://www.countryflags.io/" + iso_code + "/flat/64.png";
     }
-    
+
     private synchronized static void saveImage(Image target, File imgFile) {
-        try{
-            
+        try {
+
             ImageIO.write(SwingFXUtils.fromFXImage(target, null), "png", imgFile);
-        }catch(IOException | IllegalArgumentException ioe){
+        } catch (IOException | IllegalArgumentException ioe) {
             logger.error(ioe, ioe.getCause());
             logger.debug(imgFile.toString());
         }
-        
+
     }
-    
-    private synchronized String iso3ToIso2(String iso3){
+
+    private synchronized String iso3ToIso2(String iso3) {
         var y = localeMap.get(iso3);
-        if (y==null){
+        if (y == null) {
             //System.out.println("xd " + iso3);
             return "";
-        } 
+        }
         return y.getCountry();
     }
 
     @Override
     public void onDownload() throws IOException {
         var file = Paths.get(App.class.getResource("res/owid-covid-data_.csv").getFile()).toFile();
-        var reader = new BufferedReader(new FileReader(file)); 
+        var reader = new BufferedReader(new FileReader(file));
         var country_info = reader.lines().skip(1)
-                        .map(it -> it.split("[|]"))
-                        //first: iso_code, second: country_name
-                        .filter(it -> it[0].length() == 3)
-                        .map(it -> new Pair<>(iso3ToIso2(it[0]), it[2].toLowerCase())) 
-                        .distinct()
-                        .map(ci -> new Pair<>(Paths.get(App.FLAGS_PATH.toString(), ci.getValue()+ ".png").toFile(), ci.getKey()) )
-                        .filter(it -> !it.getKey().exists())
-                        .collect(Collectors.toList());
-
+                .map(it -> it.split("[|]"))
+                //first: iso_code, second: country_name
+                .filter(it -> it[0].length() == 3)
+                .map(it -> new Pair<>(iso3ToIso2(it[0]), it[2].toLowerCase()))
+                .distinct()
+                .map(ci -> new Pair<>(Paths.get(App.FLAGS_PATH.toString(), ci.getValue() + ".png").toFile(), ci.getKey()))
+                .filter(it -> !it.getKey().exists())
+                .collect(Collectors.toList());
 
         reader.close();
         var total = country_info.size();
-        if (total > 0){
+        if (total > 0) {
             logger.info("Downloading flags");
             download.setMaxProgress(total);
-            Platform.runLater(()-> {
+            Platform.runLater(() -> {
                 downloadStage.show();
             });
-            
+
             country_info
                     .stream()
                     .forEach(ci -> {
@@ -173,14 +170,12 @@ public class MainController extends DownloadTask implements Initializable{
                         download.updateProgress();
                         var flag_url = getFlagUrl(ci.getValue());
                         var flagimg = new Image(flag_url);
-                        logger.debug("Image URL: " + flag_url + " Image[" + download.getCurrentValue() +"/" + total+ "] : " + flagimg);
+                        logger.debug("Image URL: " + flag_url + " Image[" + download.getCurrentValue() + "/" + total + "] : " + flagimg);
                         saveImage(flagimg, ci.getKey());
-
-
 
                     });
             logger.info("Finish download images");
-        }else{
+        } else {
             System.gc();
         }
     }
@@ -193,10 +188,7 @@ public class MainController extends DownloadTask implements Initializable{
     @Override
     public void onCompleted() {
         System.gc();
-        Platform.runLater(()-> downloadStage.close());
+        Platform.runLater(() -> downloadStage.close());
     }
-    
 
-    
-    
 }
