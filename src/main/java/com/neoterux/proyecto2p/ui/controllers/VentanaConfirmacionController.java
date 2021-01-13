@@ -23,7 +23,7 @@ public class VentanaConfirmacionController implements Initializable {
     private Button btn_registrar;
 
     @FXML
-    private Button btn_Cancelar;
+    private Button btn_Cancelare;
 
     public void botonCancelar() {
         try {
