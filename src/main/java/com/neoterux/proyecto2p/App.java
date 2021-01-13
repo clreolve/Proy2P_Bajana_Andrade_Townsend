@@ -32,6 +32,14 @@ public class App extends Application {
     
     site: https://flagcdn.com/[size{width x height}]/[iso_code].png
     
+    
+    Images for Countries
+    
+    site: https://github.com/djaiss/mapsicon
+    isocode2: lowercase, 2-digit
+    size: availables [16, 32, 48, 64, 80, 96, 128, 256, 1024 ]
+    img_link: https://github.com/djaiss/mapsicon/tree/master/all/{isocode2}/{size}.png
+    
     */
     
     public static volatile Path FLAGS_PATH = Paths.get("imgs", "flags");
