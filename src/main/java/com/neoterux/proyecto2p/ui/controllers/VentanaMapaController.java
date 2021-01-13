@@ -18,7 +18,7 @@ public class VentanaMapaController implements Initializable {
     @FXML
     private ImageView mapa;
 
-    private final Image imagen = new Image("mapaguayaquil.png");
+    private final Image imagen = new Image(App.resourceFrom(App.class, "ui/res/mapaguayaquil.png").toExternalForm());
 
     @FXML
     private Button btn_registrar;
