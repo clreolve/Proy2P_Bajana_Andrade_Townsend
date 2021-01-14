@@ -27,6 +27,7 @@ public class VentanaConfirmacionController implements Initializable {
 
     File archivo;
     BufferedWriter bufferedWriter;
+    
 
     @FXML
     private Button btn_registrar;
@@ -42,15 +43,19 @@ public class VentanaConfirmacionController implements Initializable {
     public void botonRegistrar() {
         VentanaMapaController datos = new VentanaMapaController();
         try {
+            
             archivo = Paths.get(App.class.getResource("res/lugares.txt").toURI()).toFile();
             bufferedWriter = new BufferedWriter(new FileWriter(archivo));
             bufferedWriter.write(datos.getPunto_principal().getX() + "-" + datos.getPunto_principal().getY());
             bufferedWriter.newLine();
             bufferedWriter.close();
+             
+          
+
         } catch (IOException e) {
             e.getMessage();
         } catch (URISyntaxException ex) {
-            ex.getMessage();
+            ex.printStackTrace();
         }
     }
 

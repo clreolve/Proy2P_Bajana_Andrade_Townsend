@@ -48,8 +48,7 @@ public class VentanaMapaController implements Initializable {
 
     public void botonCerrar() {
         texto.setText("Otro boton Oprimido");
-        Stage stage = (Stage) btn_cerrar.getScene().getWindow();
-        stage.close();
+        App.setRoot("main");
     }
 
     @Override
