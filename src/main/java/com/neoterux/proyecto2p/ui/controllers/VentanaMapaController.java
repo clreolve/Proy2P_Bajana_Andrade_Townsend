@@ -36,14 +36,9 @@ public class VentanaMapaController implements Initializable {
 
     public void botonRegistrar(ActionEvent event) {
         texto.setText("Boton Oprimido");
-        try {
-            Stage stage = new Stage();
-            stage.setScene(new Scene(App.loadFXML("ui/VentanaConfirmacion"), 506, 307));
-            stage.show();
-
-        } catch (IOException e) {
-            e.getMessage();
-        }
+        var stage = App.newWindow("ui/VentanaConfirmacion", 506, 307);
+        
+        stage.show();
     }
 
     public void botonCerrar() {

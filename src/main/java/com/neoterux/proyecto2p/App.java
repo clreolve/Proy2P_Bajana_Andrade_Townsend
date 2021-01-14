@@ -75,11 +75,11 @@ public class App extends Application {
         
         //scene = new Scene(loadFXML("ui/main"));
         mainStage = stage;
-        setRoot("main");
+        setRoot("main", "Ventana principal", 400, 640);
         stage.setScene(scene);
         stage.sizeToScene();
-        stage.setMinWidth(WIDTH);
-        stage.setMinHeight(HEIGHT);
+        //stage.setMinWidth(WIDTH);
+        //stage.setMinHeight(HEIGHT);
 
         stage.show();
         
@@ -150,9 +150,71 @@ public class App extends Application {
         logger.debug("fxml url: " + fxml_url);
         return fxmlLoader.load();
     }
+    
+    public static FXMLLoader getLoader(String fxml){
+        FXMLLoader loader;
+        loader = new FXMLLoader(App.class.getResource(fxml));
+        //loader.load();// with this initialize the fxmlload
+
+        return loader;
+    }
 
     public static void main(String[] args) {
         launch();
+    }
+    
+    /**
+     * Muestra una nueva ventana.
+     * 
+     * @param fxml nombre o dirección del fxml relativa desde la carpeta ui.
+     * @param minwidth ancho minimo
+     * @param minheight alto minimo 
+     * @param superpuesto true si la ventana se muestra en el stage principal
+     * @return controlador de la nueva ventana.
+     */
+    public static Object showAndGetController(String fxml, int minwidth, int minheight, boolean superpuesto) {
+        
+        var loader = new FXMLLoader(App.class.getResource("ui/" + fxml + ".fxml"));
+        try{
+            var root = (Parent) loader.load();
+            if (superpuesto){
+                var stage = new Stage();
+                stage.initOwner(mainStage);
+                stage.setScene(new Scene(root, minwidth, minheight));
+                stage.sizeToScene();
+            }else {
+                scene.setRoot(root);
+                mainStage.setMinHeight(minheight);
+                mainStage.setMinWidth(minwidth);
+            }
+        }catch (IOException ioe){
+            logger.error("Error al cargar el fxml", ioe);
+        }
+        
+        return loader.getController();
+    }
+    
+    /**
+     * Crea una nueva ventana a partir del fxml indicado.Todos estos stages son
+     * hijas del stage principal.
+     * 
+     * @param fxml nombre o dirección del fxml relativa desde la capeta ui.
+     * @param minwidth ancho mínimo de la nueva ventana.
+     * @param minheight alto mínimo de la nueva ventana
+     * 
+     * @return el stage de la nueva ventana
+     */
+    public static Stage newWindow(String fxml, int minwidth, int minheight) {
+        var nstage = new Stage();
+        try {
+            nstage.setScene(new Scene(loadFXML(fxml), minwidth, minheight));
+            nstage.initOwner(mainStage);
+            return nstage;
+        }catch (IOException ioe){
+            logger.error("Error al leer fxml: ", ioe);
+            throw new RuntimeException("Error al crear nueva ventana", ioe);
+        }
+        
     }
     
     public synchronized static URL resourceFrom(Class from, String relativePath) {

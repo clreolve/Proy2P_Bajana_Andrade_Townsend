@@ -25,7 +25,7 @@
       </Label>
       <HBox alignment="CENTER" layoutY="240.0" prefHeight="55.0" prefWidth="506.0" spacing="10.0">
          <children>
-            <Button fx:id="btn_registrar" mnemonicParsing="false" text="Registrar" />
+            <Button fx:id="btn_registrar" mnemonicParsing="false" onAction="#botonRegistrar" text="Registrar" />
             <Button fx:id="btn_Cancelar" mnemonicParsing="false" onAction="#botonCancelar" text="Cancelar" />
          </children>
       </HBox>

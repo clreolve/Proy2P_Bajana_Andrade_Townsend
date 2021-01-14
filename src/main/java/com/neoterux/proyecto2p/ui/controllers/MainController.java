@@ -96,7 +96,7 @@ public class MainController extends DownloadTask implements Initializable {
         //Stage stage = new Stage();
         //stage.setScene(new Scene(App.loadFXML("ui/VentanaMapa"), 680, 600));
         //stage.show();
-        App.setRoot("VentanaMapa", "Datos locales");
+        App.setRoot("VentanaMapa", "Datos locales", 600, 680);
 
     }
 
