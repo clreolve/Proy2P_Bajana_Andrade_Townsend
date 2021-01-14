@@ -45,6 +45,7 @@ public class App extends Application {
     
     public static volatile Path FLAGS_PATH = Paths.get("imgs", "flags");
     public static volatile Path COUNTRIES_PATH = Paths.get("imgs", "countries");
+    public static volatile Path FILES_PATH = Paths.get("data");
     
     
     private static Logger logger = LogManager.getLogger(App.class);
@@ -63,6 +64,7 @@ public class App extends Application {
         
         FLAGS_PATH.toFile().mkdirs();
         COUNTRIES_PATH.toFile().mkdirs();
+        FILES_PATH.toFile().mkdirs();
     }
     
     
