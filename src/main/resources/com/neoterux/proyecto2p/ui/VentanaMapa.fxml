@@ -20,7 +20,7 @@
          </children>
       </HBox>
       <ImageView fx:id="mapa" fitHeight="320.0" fitWidth="680.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="texto" layoutX="240.0" layoutY="419.0" text="Label" />
+      <Label fx:id="texto" layoutX="144.0" layoutY="452.0" text="Label" />
       <HBox alignment="CENTER" layoutX="-3.0" layoutY="470.0" prefHeight="130.0" prefWidth="686.0" spacing="10.0">
          <children>
             <Button fx:id="btn_registrar" mnemonicParsing="false" onAction="#botonRegistrar" prefWidth="150.0" text="Registra tu ubicacion" HBox.hgrow="ALWAYS" />

@@ -1,6 +1,8 @@
 package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
+import com.neoterux.proyecto2p.model.Point;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +23,7 @@ public class VentanaMapaController implements Initializable {
     private ImageView mapa;
 
     private final Image imagen = new Image(App.resourceFrom(App.class, "ui/res/mapaguayaquil.png").toExternalForm());
+    private Point punto_principal;
 
     @FXML
     private Button btn_registrar;
@@ -37,7 +40,7 @@ public class VentanaMapaController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(App.loadFXML("ui/VentanaConfirmacion"), 506, 307));
             stage.show();
-            
+
         } catch (IOException e) {
             e.getMessage();
         }
@@ -60,6 +63,22 @@ public class VentanaMapaController implements Initializable {
         mapa.setPickOnBounds(true); // Esto permite la deteccion de clicks en la imagen
         mapa.setOnMouseClicked(e -> {
             System.out.println("[" + e.getX() + " , " + e.getY() + "]");
+            punto_principal = new Point(e.getX(), e.getY());
+            int counter = 0;
+            for (Point points : Point.loadPoints()) {
+                if (Point.distancia(getPunto_principal(), points) <= 100) {
+                    counter++;
+                }
+            }
+            System.out.println(counter);
+            texto.setText("Se han encontrado "+counter+" cercanas a tu ubicacion que han registrado positivos");
         });
+    }
+
+    /**
+     * @return the punto_principal
+     */
+    public Point getPunto_principal() {
+        return punto_principal;
     }
 }
