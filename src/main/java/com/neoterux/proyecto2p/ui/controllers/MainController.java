@@ -83,24 +83,20 @@ public class MainController extends DownloadTask implements Initializable {
     @FXML
     void globalAction(ActionEvent event) {
 
-        try {
-            // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML
-            App.setRoot("ui/test_imgs", "");
-        } catch (IOException | IllegalStateException ioe) {
-            new Alert(Alert.AlertType.ERROR, "Error al cargar FXML, revisa la consola").show();
-            logger.error(ioe);
-            //ioe.printStackTrace();
-        }
+        
+        // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML
+        App.setRoot("dashboard", "Datos globales", 450, 620);
+        
 
     }
 
     @FXML
     void zoneAction(ActionEvent event) throws IOException {
 
-        Stage stage = new Stage();
-        stage.setScene(new Scene(App.loadFXML("ui/VentanaMapa"), 680, 600));
-        stage.show();
-        //App.setRoot("ui/VentanaMapa", "");
+        //Stage stage = new Stage();
+        //stage.setScene(new Scene(App.loadFXML("ui/VentanaMapa"), 680, 600));
+        //stage.show();
+        App.setRoot("VentanaMapa", "Datos locales");
 
     }
 

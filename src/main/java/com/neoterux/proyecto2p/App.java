@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,26 +70,20 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         logger.info("Starting application");
-        /*
-            BASE FX APPLICATION
         
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        //scene = new Scene(loadFXML("ui/main"));
+        mainStage = stage;
+        setRoot("main");
         stage.setScene(scene);
-        stage.show();*/
-        try {
-            scene = new Scene(loadFXML("ui/main"));
-            stage.setScene(scene);
-            stage.sizeToScene();
-            stage.setMinWidth(WIDTH);
-            stage.setMinHeight(HEIGHT);
+        stage.sizeToScene();
+        stage.setMinWidth(WIDTH);
+        stage.setMinHeight(HEIGHT);
 
-            stage.show();
-        } catch (IOException ex) {
-            logger.error(ex, ex.getCause());
-        }
+        stage.show();
+        
         
     }
-
+    
     @Override
     public void stop() throws Exception {
         logger.info("exitting...");
@@ -97,10 +92,54 @@ public class App extends Application {
     }
     
     
-
-    public static void setRoot(String fxml, String title) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    /**
+     * Coloca en la ventana principal una nueva interfáz a partir del nombre fxml 
+     * que se provea.
+     * 
+     * @param fxml nombre del fxml, o la dirección relativa de un fxml desde la carpeta
+     * ui.
+     * @param title título que va a tener la ventana principal
+     *  
+     */
+    public static void setRoot(String fxml, String title) {
+        try {
+        var loader = new FXMLLoader(App.class.getResource( "ui/" + fxml + ".fxml")); 
+        var root  = (Parent)loader.load();
+        
+        if (scene == null) scene = new Scene(root);
+        else scene.setRoot(root);
+        //var sroot = scene.getRoot();
+        
+        //logger.debug(String.format("Parent size = height[%f] x widht[%f]", ((Pane)sroot).getHeight(), ((Pane)sroot).getWidth() ));
+        
+        }catch (IOException ioe){
+            logger.error("IOException ocurred when reading fxml: ", ioe);
+        }catch (IllegalStateException ise){
+            logger.error("fxml name/location is bad, or cannot locate fxml in ui folder: ", ise);
+        }finally{
+            mainStage.setTitle(title);
+        }
+        
     }
+    
+    public static void setRoot(String fxml, String title, int minheight, int minwidth){
+        setRoot(fxml, title);
+        mainStage.setMinHeight(minheight);
+        mainStage.setMinWidth(minwidth);
+    }
+    
+    /**
+     * Coloca en la ventana principal una nueva interfáz a partir del nombre fxml 
+     * que se provea.
+     * 
+     * @param fxml nombre del fxml, o la dirección relativa de un fxml desde la carpeta
+     * ui.
+     * 
+     */
+    public static void setRoot(String fxml) {
+        setRoot(fxml, "");
+    }
+    
 
     public static Parent loadFXML(String fxml) throws IOException {
         logger.debug("loading fxml at: " + fxml); 
