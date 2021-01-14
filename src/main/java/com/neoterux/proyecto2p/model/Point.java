@@ -68,7 +68,7 @@ public class Point {
                 System.out.println("Error when loading lugares.txt file: " + ioe.getMessage());
             }
         } catch (URISyntaxException ex) {
-            ex.printStackTrace();
+            ex.getMessage();
         }
         return plist;
     }
