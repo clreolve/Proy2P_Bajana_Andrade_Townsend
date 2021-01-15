@@ -52,8 +52,8 @@ public class App extends Application {
     
     public static ThreadGroup appThreadGroup = new ThreadGroup("Proyect2"); 
     
-    private static int WIDTH = 640;
-    private static int HEIGHT = 400;
+    private static int WIDTH = 680;
+    private static int HEIGHT = 600;
 
     private static Scene scene;
     public static Stage mainStage;
