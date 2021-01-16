@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -18,7 +19,7 @@ import javafx.scene.image.ImageView;
  *
  * @author danae
  */
-public class GlobalDataController {
+public class GlobalDataController implements Initializable{
     
     @FXML 
     private ImageView imgViewMap;
@@ -37,12 +38,18 @@ public class GlobalDataController {
         
     }
     
+
+    @Override
     public void initialize(URL url, ResourceBundle rb) {     
         ArrayList<Pais> paises = Pais.cargarPaises();
         System.out.println(paises);
-        
-        
+        numGlobalCases.setText(""+Pais.casosTotales);
+        numGlobalDeath.setText(""+Pais.muertesTotales);
+             
     }
+   
+ 
+  
     
     
 }

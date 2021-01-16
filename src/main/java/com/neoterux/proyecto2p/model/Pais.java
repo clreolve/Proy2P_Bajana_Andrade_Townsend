@@ -24,8 +24,8 @@ public class Pais {
     private String nombre;
     private int casos;
     private int muertes;
-    private static int casosTotales;
-    private static int muertesTotales;
+    public static int casosTotales;
+    public static int muertesTotales;
     
     
     public Pais(String nombre, int casos, int muertes){
@@ -36,21 +36,42 @@ public class Pais {
         muertesTotales+=muertes;
     }
     
+    @Override
     public String toString(){
         return nombre+" "+casos+" "+muertes;
     }
     
+    public String getNombre(){
+        return nombre;
+    }
+    
+    public int getCasos(){
+        return casos;
+    }
+    
+    public int getMuertes(){
+        return muertes;
+    }
+    
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+    
+    public void setCasos(int casos){
+        this.casos = casos;
+    }
+    
+    public void setMuertes(int muertes){
+        this.muertes = muertes;
+    }
+    
+    
+    
     public static ArrayList<Pais> cargarPaises() {
         
        ArrayList<Pais> paises = new ArrayList();
-       File archivo = null;
-       try{
-       archivo = Paths.get(App.class.getResource("res/globales.csv").toURI()).toFile();
-       }catch (URISyntaxException ex){
-           System.out.println(ex.getMessage());
-        }
-
-        try (BufferedReader bf = new BufferedReader(new FileReader(archivo))) {
+    
+        try (BufferedReader bf = new BufferedReader(new FileReader("globales.csv"))) {
             String linea;
             while ((linea = bf.readLine()) != null) {
                 System.out.println(linea);
@@ -61,7 +82,8 @@ public class Pais {
             }
 
         } catch (FileNotFoundException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println(ex.getStackTrace());
+            System.out.println(ex.getLocalizedMessage());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

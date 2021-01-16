@@ -124,7 +124,7 @@ public class MainController extends DownloadTask implements Initializable {
         }
         return y.getCountry();
     }
-
+  
     @Override
     public void onDownload() throws IOException {
         var file = Paths.get(App.class.getResource("res/owid-covid-data_.csv").getFile()).toFile();
