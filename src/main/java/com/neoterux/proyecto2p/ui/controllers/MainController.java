@@ -84,8 +84,8 @@ public class MainController extends DownloadTask implements Initializable {
     void globalAction(ActionEvent event) {
 
         
-        // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML
-        App.setRoot("dashboard", "Datos globales", 450, 620);
+        // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML. YAPS done
+        App.setRoot("globalData", "Datos globales", 550, 620);
         
 
     }
