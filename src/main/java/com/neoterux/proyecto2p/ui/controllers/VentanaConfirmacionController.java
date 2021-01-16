@@ -33,7 +33,6 @@ public class VentanaConfirmacionController implements Initializable {
     File archivo;
     BufferedWriter bufferedWriter;
     
-
     @FXML
     private Button btn_registrar;
 
