@@ -5,6 +5,7 @@
  */
 package com.neoterux.proyecto2p.ui.controllers;
 
+import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Pais;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,20 +36,18 @@ public class GlobalDataController implements Initializable{
     
     @FXML
     public void consultaPais(){
-        
+        App.setRoot("countryData", "Ventana Países Ordenar", 550, 620);
     }
     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {     
-        ArrayList<Pais> paises = Pais.cargarPaises();
-        System.out.println(paises);
+        Pais.cargarPaises();
         numGlobalCases.setText(""+Pais.casosTotales);
         numGlobalDeath.setText(""+Pais.muertesTotales);
              
     }
    
- 
   
     
     

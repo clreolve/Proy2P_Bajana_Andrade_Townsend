@@ -47,7 +47,6 @@ public class App extends Application {
     public static volatile Path COUNTRIES_PATH = Paths.get("imgs", "countries");
     public static volatile Path FILES_PATH = Paths.get("data");
     
-    
     private static Logger logger = LogManager.getLogger(App.class);
     
     public static ThreadGroup appThreadGroup = new ThreadGroup("Proyect2"); 

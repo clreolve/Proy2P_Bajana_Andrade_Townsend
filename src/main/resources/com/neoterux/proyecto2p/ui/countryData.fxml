@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" prefHeight="80.0" prefWidth="600.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="188.0" text="Consulta de países">
+               <font>
+                  <Font name="Eras Bold ITC" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="600.0" spacing="20.0">
+         <children>
+            <Label text="Consultar por:" />
+            <ComboBox prefWidth="150.0" />
+         </children>
+         <padding>
+            <Insets left="30.0" />
+         </padding>
+      </HBox>
+      <TableView editable="true" prefHeight="303.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;">
+        <columns>
+          <TableColumn prefWidth="75.0" />
+          <TableColumn prefWidth="75.0" text="País" />
+            <TableColumn prefWidth="75.0" text="Total casos" />
+            <TableColumn prefWidth="75.0" text="Total muertes" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+</VBox>
