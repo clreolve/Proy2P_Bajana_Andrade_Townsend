@@ -16,7 +16,7 @@ interface Downloadable{
     /**
      * Este método contendrá el proceso de descarga
      * 
-     * @throws IOException 
+     * @throws IOException si ocurre un error durante la descarga.
      */
     void onDownload() throws IOException;
     
