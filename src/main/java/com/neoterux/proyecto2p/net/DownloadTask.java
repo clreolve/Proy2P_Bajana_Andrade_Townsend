@@ -20,12 +20,12 @@ public abstract class DownloadTask implements Runnable, Downloadable {
 
     @Override
     public void run() {
-//        try {
-//            onDownload();
-//            onCompleted();
-//        } catch (IOException ex) {
-//            onError(ex);
-//        }
+        try {
+            onDownload();
+            onCompleted();
+        } catch (IOException ex) {
+            onError(ex);
+        }
     }
     
 }
