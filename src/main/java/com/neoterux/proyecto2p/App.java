@@ -7,11 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  * </p>
  * 
  * @author Neoterux
- * @version 0.0.1
+ * @version 0.5.0
  */
 public class App extends Application {
     /*
@@ -43,18 +41,36 @@ public class App extends Application {
     
     */
     
+    /**
+     * Objeto que contiene la direción de la carpeta de las banderas
+     */
     public static volatile Path FLAGS_PATH = Paths.get("imgs", "flags");
+    
+    /**
+     * Objeto que contiene la direción de la carpeta de los paises
+     */
+    @Deprecated
     public static volatile Path COUNTRIES_PATH = Paths.get("imgs", "countries");
+    
+    /**
+     * Objeto que contiene la direción de la carpeta de los datos a utilizar
+     */
     public static volatile Path FILES_PATH = Paths.get("data");
     
     private static Logger logger = LogManager.getLogger(App.class);
     
+    /**
+     * Grupo de threads que pertenezcan a esta app.
+     */
     public static ThreadGroup appThreadGroup = new ThreadGroup("Proyect2"); 
     
-    private static int WIDTH = 680;
-    private static int HEIGHT = 600;
-
+    /**
+     * Escena principal de la aplicación.
+     */
     private static Scene scene;
+    /**
+     * Stage o ventana principal de la aplicacion.
+     */
     public static Stage mainStage;
 
     @Override
@@ -67,7 +83,10 @@ public class App extends Application {
     }
     
     
-
+    /**
+     * Punto de partida de la aplicacion.
+     * @param stage stage o ventana principal.
+     */
     @Override
     public void start(Stage stage) {
         logger.info("Starting application");
@@ -77,14 +96,14 @@ public class App extends Application {
         setRoot("main", "Ventana principal", 400, 640);
         stage.setScene(scene);
         stage.sizeToScene();
-        //stage.setMinWidth(WIDTH);
-        //stage.setMinHeight(HEIGHT);
-
         stage.show();
-        
-        
     }
     
+    /**
+     * Método que se ejecuta al finalizar el Thread de JavaFX
+     * 
+     * @throws Exception 
+     */
     @Override
     public void stop() throws Exception {
         logger.info("exitting...");
@@ -123,6 +142,14 @@ public class App extends Application {
         
     }
     
+    /**
+     * Cambia el stage principal, por otra escena a partir de un fxml.
+     * 
+     * @param fxml dirección relativa del fxml con respecto a la clase App.
+     * @param title nuevo título de la ventana.
+     * @param minheight altura mínima nueva de la ventana.
+     * @param minwidth ancho mínimo nuevo de la ventana
+     */
     public static void setRoot(String fxml, String title, int minheight, int minwidth){
         setRoot(fxml, title);
         mainStage.setMinHeight(minheight);
@@ -141,7 +168,13 @@ public class App extends Application {
         setRoot(fxml, "");
     }
     
-
+    /**
+     * Obtiene el objeto parent/root del fxml luego de haberlo cargado.
+     * 
+     * @param fxml dirección del fxml con respecto a la clase App.
+     * @return el objeto parent del archivo fxml.
+     * @throws IOException 
+     */
     public static Parent loadFXML(String fxml) throws IOException {
         logger.debug("loading fxml at: " + fxml); 
         var fxml_url = App.class.getResource(fxml + ".fxml"); 
@@ -150,6 +183,17 @@ public class App extends Application {
         return fxmlLoader.load();
     }
     
+    /**
+     * Obtiene el cagador fxml de un archivo específico.
+     * Inicializar el cargador fxml:
+     * {@code 
+     * var loader = App.getLoader("path/to/fxml.fxml");
+     * loader.load(); // Esto cargará al FXMLLoader
+     * }
+     * 
+     * @param fxml dirección del fxml con respecto a la clase App.
+     * @return FXMLoader sin cargar del archivo fxml
+     */
     public static FXMLLoader getLoader(String fxml){
         FXMLLoader loader;
         loader = new FXMLLoader(App.class.getResource(fxml));
@@ -157,7 +201,11 @@ public class App extends Application {
 
         return loader;
     }
-
+    
+    /**
+     * Entry point of JVM
+     * @param args args from the cli
+     */
     public static void main(String[] args) {
         launch();
     }
@@ -181,6 +229,7 @@ public class App extends Application {
                 stage.initOwner(mainStage);
                 stage.setScene(new Scene(root, minwidth, minheight));
                 stage.sizeToScene();
+                stage.show();
             }else {
                 scene.setRoot(root);
                 mainStage.setMinHeight(minheight);
@@ -216,13 +265,16 @@ public class App extends Application {
         
     }
     
+    /**
+     * Obtiene la URL de un recurso específico.
+     * 
+     * @param from clase que sirve de base(ubicacion) para localizar el recurso.
+     * @param relativePath dirección relativa, con respecto a la clase, donde se
+     * encuentre el recurso
+     * @return URL del recurso especificado.
+     */
     public synchronized static URL resourceFrom(Class from, String relativePath) {
         return from.getResource(relativePath);
-//        try { 
-//            var res = Paths.get(from.getResource(relativePath).toURI());
-//        }catch(URISyntaxException use) {
-//            System.out.println("Error when loading resource: " + use.getMessage());
-//        }
     }
 
 }
