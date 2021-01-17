@@ -8,7 +8,6 @@ package com.neoterux.proyecto2p.ui.controllers;
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Pais;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

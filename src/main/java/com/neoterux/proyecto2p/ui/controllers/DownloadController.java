@@ -5,16 +5,12 @@
  */
 package com.neoterux.proyecto2p.ui.controllers;
 
-import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.utils.Counter;
-import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
