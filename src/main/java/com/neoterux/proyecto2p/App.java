@@ -255,6 +255,8 @@ public class App extends Application {
         var nstage = new Stage();
         try {
             nstage.setScene(new Scene(loadFXML(fxml), minwidth, minheight));
+            nstage.setMinWidth(minwidth);
+            nstage.setMinHeight(minheight);
             nstage.initOwner(mainStage);
             return nstage;
         }catch (IOException ioe){
