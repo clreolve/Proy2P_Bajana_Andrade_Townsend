@@ -2,6 +2,7 @@ package com.neoterux.proyecto2p;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -57,7 +58,7 @@ public class App extends Application {
      */
     public static volatile Path FILES_PATH = Paths.get("data");
     
-    private static Logger logger = LogManager.getLogger(App.class);
+    private static final Logger logger = LogManager.getLogger(App.class);
     
     /**
      * Grupo de threads que pertenezcan a esta app.
@@ -73,13 +74,17 @@ public class App extends Application {
      */
     public static Stage mainStage;
 
+    /**
+     * Crea las carpetas necesarias antes de iniciar la aplicación.
+     */
     @Override
-    public void init() throws Exception {
-        super.init(); //To change body of generated methods, choose Tools | Templates.
-        
-        FLAGS_PATH.toFile().mkdirs();
-        COUNTRIES_PATH.toFile().mkdirs();
-        FILES_PATH.toFile().mkdirs();
+    public void init() {
+        var x = FLAGS_PATH.toFile().mkdirs() &&
+                //COUNTRIES_PATH.toFile().mkdirs() &&
+                FILES_PATH.toFile().mkdirs();
+        if (x){
+            logger.info("Folders creates successfully");
+        }
     }
     
     
@@ -101,11 +106,9 @@ public class App extends Application {
     
     /**
      * Método que se ejecuta al finalizar el Thread de JavaFX
-     * 
-     * @throws Exception 
      */
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         logger.info("exitting...");
         
         System.exit(0);//close all posible threads
@@ -123,15 +126,10 @@ public class App extends Application {
      */
     public static void setRoot(String fxml, String title) {
         try {
-        var loader = new FXMLLoader(App.class.getResource( "ui/" + fxml + ".fxml")); 
-        var root  = (Parent)loader.load();
-        
-        if (scene == null) scene = new Scene(root);
-        else scene.setRoot(root);
-        //var sroot = scene.getRoot();
-        
-        //logger.debug(String.format("Parent size = height[%f] x widht[%f]", ((Pane)sroot).getHeight(), ((Pane)sroot).getWidth() ));
-        
+            var loader = new FXMLLoader(App.class.getResource( "ui/" + fxml + ".fxml"));
+            var root  = (Parent)loader.load();
+            if (scene == null) scene = new Scene(root);
+            else scene.setRoot(root);
         }catch (IOException ioe){
             logger.error("IOException ocurred when reading fxml: ", ioe);
         }catch (IllegalStateException ise){
@@ -173,9 +171,10 @@ public class App extends Application {
      * 
      * @param fxml dirección del fxml con respecto a la clase App.
      * @return el objeto parent del archivo fxml.
-     * @throws IOException 
+     * @throws IOException si el archivo no existe, u ocurre algun error de I/O al leer el fxml.
+     * @throws LoadException si hay error en la sintaxis del fxml.
      */
-    public static Parent loadFXML(String fxml) throws IOException {
+    public static Parent loadFXML(String fxml) throws IOException, LoadException {
         logger.debug("loading fxml at: " + fxml); 
         var fxml_url = App.class.getResource(fxml + ".fxml"); 
         FXMLLoader fxmlLoader = new FXMLLoader(fxml_url);
@@ -273,7 +272,7 @@ public class App extends Application {
      * encuentre el recurso
      * @return URL del recurso especificado.
      */
-    public synchronized static URL resourceFrom(Class from, String relativePath) {
+    public synchronized static URL resourceFrom(Class<?> from, String relativePath) {
         return from.getResource(relativePath);
     }
 
