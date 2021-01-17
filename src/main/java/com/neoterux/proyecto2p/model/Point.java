@@ -8,18 +8,26 @@ package com.neoterux.proyecto2p.model;
 import com.neoterux.proyecto2p.App;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.Alert;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
+ * <h1> Point </h1>
+ * <p>Clase que representa un punto 2D </p>
  *
  * @author neoterux
  */
 public class Point {
+    
+    private static Logger logger = LogManager.getLogger(Point.class);
 
     private double x;
     private double y;
@@ -56,25 +64,30 @@ public class Point {
     public static double distancia(Point p0, Point pf) {
         return Math.sqrt(Math.pow((pf.x - p0.x), 2) + Math.pow((pf.y - p0.y), 2));
     }
-
+    
+    /**
+     * Carga los puntos del archivo lugares.txt
+     * 
+     * @return lista con los puntos parseados del archivo.
+     */
     public static List<Point> loadPoints() {
         var plist = new ArrayList<Point>();
-        File file;
-        try {
-            file = Paths.get(App.class.getResource("res/lugares.txt").toURI()).toFile();
+        logger.info("reading lugares.txt");
+        var file = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
 
-            try (var reader = new BufferedReader(new FileReader(file))) {
+        try (var reader = new BufferedReader(new FileReader(file))) {
 
-                reader.lines()
-                        .map(it -> it.split("-"))
-                        .map(par -> new Point(Double.parseDouble(par[0]), Double.parseDouble(par[1])))
-                        .forEach(plist::add);
-            } catch (IOException ioe) {
-                System.out.println("Error when loading lugares.txt file: " + ioe.getMessage());
-            }
-        } catch (URISyntaxException ex) {
-            ex.getMessage();
-        }
+            reader.lines()
+                    .map(it -> it.split("-"))
+                    .map(par -> new Point(Double.parseDouble(par[0]), Double.parseDouble(par[1])))
+                    .forEach(plist::add);
+            logger.info("lugares.txt successfully readed");
+        }catch (FileNotFoundException fnf){
+            logger.error("archivo lugares.txt no se encuentra en la capeta data");
+            new Alert(Alert.AlertType.ERROR, "Archivo lugares.txt no se encuentra en la carpeta data.").showAndWait();
+        }catch (IOException ioe) {
+            logger.error("IOException ocured when trying to read lugares.txt", ioe);
+        } 
         return plist;
     }
 }
