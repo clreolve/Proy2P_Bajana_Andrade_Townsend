@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,7 +53,11 @@ public class MainController extends DownloadTask implements Initializable {
     @FXML
     void globalAction(ActionEvent event) {
         // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML. YAPS done
-        App.setRoot("globalData", "Datos globales", 550, 620);
+        var globstg = App.newWindow("ui/globalData", 620, 550);
+        globstg.setTitle("Datos globales");
+        globstg.initModality(Modality.WINDOW_MODAL);
+        globstg.showAndWait();
+        // App.setRoot("globalData", "Datos globales", 550, 620);
     }
 
     /**
@@ -61,7 +66,11 @@ public class MainController extends DownloadTask implements Initializable {
      */
     @FXML
     void zoneAction(ActionEvent event){
-        App.setRoot("VentanaMapa", "Datos locales", 600, 680);
+        var zonestg = App.newWindow("ui/VentanaMapa",680, 600);
+        zonestg.setTitle("Datos locales");
+        zonestg.initModality(Modality.WINDOW_MODAL);
+        zonestg.showAndWait();
+       // App.setRoot("VentanaMapa", "Datos locales", 600, 680);
     }
 
     private synchronized static String getFlagUrl(String iso_code) {
