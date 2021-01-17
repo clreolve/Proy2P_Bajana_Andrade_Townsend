@@ -176,7 +176,7 @@ public class App extends Application {
         var loader = new FXMLLoader(App.class.getResource("ui/" + fxml + ".fxml"));
         try{
             var root = (Parent) loader.load();
-            if (superpuesto){
+            if (!superpuesto){
                 var stage = new Stage();
                 stage.initOwner(mainStage);
                 stage.setScene(new Scene(root, minwidth, minheight));
