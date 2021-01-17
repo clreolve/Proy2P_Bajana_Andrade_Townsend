@@ -10,19 +10,6 @@ import com.neoterux.proyecto2p.model.Continent;
 import com.neoterux.proyecto2p.model.Country;
 import com.neoterux.proyecto2p.utils.Counter;
 import com.neoterux.proyecto2p.utils.LocaleUtils;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.application.Platform;
@@ -41,6 +28,16 @@ import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * <h1>DahsboardController</h1>
  * <p>Controlador de la interfaz del dashboard</p>
@@ -55,7 +52,7 @@ public class DashboardController implements Initializable, Runnable{
      * Es el ThreadPool que contendrá a las tareas de búsqueda repetitivas, 
      * corriendo en el fondo.
      */
-    private ExecutorService searchPool;
+    private final ExecutorService searchPool;
     private final File dataFile;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String[] lastData;
@@ -93,8 +90,8 @@ public class DashboardController implements Initializable, Runnable{
     /**
      * Este método se encarga de configurar o realizar procesos antes de cargar el gui.
      * 
-     * @param url
-     * @param rb 
+     * @param url url
+     * @param rb resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,11 +110,12 @@ public class DashboardController implements Initializable, Runnable{
             while(true){
                 
                 try {
-                    Thread.currentThread().sleep(1000);
+                    //noinspection BusyWait
+                    Thread.sleep(1000);
                     Platform.runLater(()->cLabel.setText(String.format("Tiempo en la aplicación: %d segundos", counter.getCurrentValue())));
                     counter.step();
                 } catch (InterruptedException ex) {
-                    logger.error(ex);
+                    logger.error("Thread interrumped", ex);
                 }
             }
         
@@ -139,7 +137,7 @@ public class DashboardController implements Initializable, Runnable{
 
     /**
      * Método que se realiza al momento de presionar el boton de consultar.
-     * @param event 
+     * @param event action event
      */
     @FXML
     void searchAction(ActionEvent event) {

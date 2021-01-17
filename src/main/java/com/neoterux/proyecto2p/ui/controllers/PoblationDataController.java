@@ -17,8 +17,6 @@ package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.utils.Counter;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +25,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * <h1>PoblationDataController</h1>
@@ -37,7 +38,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class PoblationDataController implements Initializable, Runnable{
     
-    private static Logger logger = LogManager.getLogger(PoblationDataController.class);
+    private static final Logger logger = LogManager.getLogger(PoblationDataController.class);
     
     @FXML private Label lblPromAge;
 
@@ -63,8 +64,8 @@ public class PoblationDataController implements Initializable, Runnable{
     /**
      * Este método configura el contorlador antes de cagar los objetos de FXML
      * 
-     * @param url
-     * @param rb 
+     * @param url url
+     * @param rb resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,20 +85,17 @@ public class PoblationDataController implements Initializable, Runnable{
         
         try {
             var counter = new Counter(6, -1);
-            for(; counter.getCurrentValue() > 0; ){
-                Platform.runLater(() -> {
-                    lblCounter.setText("Ventana cerrando en " + counter.getCurrentValue()+ " segundos");
-                });
+            while (counter.getCurrentValue() > 0) {
+                Platform.runLater(() -> lblCounter.setText("Ventana cerrando en " + counter.getCurrentValue()+ " segundos"));
                 counter.step();
+                //noinspection BusyWait
                 Thread.sleep(1000);
             }
-            
+
         }catch (InterruptedException ie){
-            
+            logger.info("Thread interrumped.");
         }finally {
-            Platform.runLater(() -> {
-                ((Stage)lblCounter.getScene().getWindow()).close();
-            });
+            Platform.runLater(() -> ((Stage)lblCounter.getScene().getWindow()).close());
             
         }
         

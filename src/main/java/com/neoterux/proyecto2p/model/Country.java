@@ -6,6 +6,9 @@
 package com.neoterux.proyecto2p.model;
 
 import com.neoterux.proyecto2p.App;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,8 +17,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * <h1>Country</h1>
@@ -23,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author neoterux
  */
-public class Country implements Comparable {
+public class Country implements Comparable<Country> {
 
     /**
      * @return the name
@@ -33,11 +34,11 @@ public class Country implements Comparable {
     }
     
     
-    private static Logger logger = LogManager.getLogger(Country.class);
+    private static final Logger logger = LogManager.getLogger(Country.class);
     private static List<Country> countries;
     
     
-    private String name;
+    private final String name;
     private int cases;
     private int totalDeaths;
     
@@ -55,7 +56,7 @@ public class Country implements Comparable {
         
 
     @Override
-    public int compareTo(Object t) {
+    public int compareTo(Country t) {
         // Impelementar para ....
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return 0;
@@ -81,7 +82,7 @@ public class Country implements Comparable {
             // this is the list with full data of countries
             var lst = new ArrayList<Country>();
             con.stream()
-                    .map(it -> it.getCountries())
+                    .map(Continent::getCountries)
                     .forEach(it ->{ // this is a list of countries by continent
                         it.forEach(country ->{
                             lst.add(country);

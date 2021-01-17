@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class Point {
     
-    private static Logger logger = LogManager.getLogger(Point.class);
+    private static final Logger logger = LogManager.getLogger(Point.class);
 
     private double x;
     private double y;

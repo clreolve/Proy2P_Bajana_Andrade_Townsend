@@ -6,18 +6,8 @@
 package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,17 +19,26 @@ import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.util.ResourceBundle;
+
 /**
  *
  * @author neoterux
  */
 public class TestImageController implements Initializable, Runnable{
     
-    private static Logger logger = LogManager.getLogger(TestImageController.class);
+    private static final Logger logger = LogManager.getLogger(TestImageController.class);
     
     private class Counter {
         private int value;
-        private int step;
+        private final int step;
         
         Counter(int value) {
             this.value = value;
@@ -113,7 +112,7 @@ public class TestImageController implements Initializable, Runnable{
 
                             });
                     try {
-                        Thread.currentThread().sleep(400);
+                        Thread.sleep(400);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }

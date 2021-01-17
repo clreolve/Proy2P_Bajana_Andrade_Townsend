@@ -24,7 +24,7 @@ public class Counter {
     /**
      * Escalar que se suma/resta al valor inicial del contador.
      */
-    private int step;
+    private final int step;
 
     /**
      * Crea un nuevo contador con su valor inicial y un step personalizado.
