@@ -8,3 +8,72 @@ and open the template in the editor.
     Author     : neoterux
 */
 
+.root {
+    
+    /*-fx-background-color: linear-gradient(from 25% 35% to 100% 110%, #00cccc, violet);*/
+    -fx-background-color: white;
+    /*-fx-background-color: linear-gradient(from 25% 40% to 100% 90%, #6c63a4, #827bb6);*/
+    
+}
+
+
+.label {
+    -fx-font-size: 14px;
+}
+
+
+.top-title {
+    -fx-font-size: 20px;
+    -fx-text-fill: #0c6a8e;
+    -fx-font-weight: 700;
+}
+.data-box{
+    -fx-border-radius: 7px;
+    -fx-border-width: 2px;
+    -fx-border-color: black;
+    /*-fx-background-color: #d2d4d6;*/
+    -fx-background-color: linear-gradient(from 25% 35% to 100% 110%, #e4bc00, #d65d45);
+    -fx-background-radius: 7px;
+}
+
+.title {
+    -fx-font-size: 16px;
+    -fx-text-fill : #5b0e12;
+    -fx-font-weight: 900;
+}
+
+.data {
+    -fx-font-size: 14px;
+    -fx-text-fill: semibold;
+}
+
+.combo-box-base {
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #303030;
+    -fx-border-width:2px;
+    -fx-min-width: 160px;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+    
+    
+}
+
+
+.button {
+    -fx-background-radius: 7px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #999999;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-width:2px;
+    -fx-min-width: 100px;
+    -fx-min-height: 30px;
+    -fx-background-color: #d4442d;
+    
+}
+
+.button:pressed {
+    -fx-background-color: #a73434;
+    -fx-border-color: #bcbcbc;
+}
