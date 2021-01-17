@@ -31,51 +31,59 @@ public class DownloadController {
 
     @FXML
     private ProgressBar progress;
-    
+
+    /**
+     * La cantidad total de archivos a descargar
+     */
     private int total;
+    /**
+     * Contador usado durante la descarga.
+     */
     private Counter counter;
-    private String target;
-    
-    
+
+    /**
+     * Configura el controlador
+     */
     public DownloadController(){
         this.total = -1;
-        target = "";
-          
     }
-    
-    
+
     /**
-     * Coloca el objetivo de la descarga.
-     * Ej. Descargado [--/--] {target}
-     * 
-     * @param message 
+     * Obtiene el valor actual de archivos descargados.
+     * @return valor actual de archivos descargados.
      */
-    public void target(String message){
-        this.dLabel.setText(message);
-    }
-    
     public int getCurrentValue() {
         return this.counter.getCurrentValue();
     }
-    
+
+    /**
+     * Coloca el valor máximo de archivos adescargar
+     *
+     * @param max valor máximo de archivos.
+     */
     public void setMaxProgress(int max) {
         if (counter == null) {
             counter = new Counter(1);
         }
         this.total = max;
     }
-            
+
+    /**
+     * Actualiza el label con el progreso actual de descarga.
+     */
     public void updateProgress(){
         Platform.runLater(() -> {
-            //System.out.println("label: " + dLabel + " progress: " + progress);
-            this.dLabel.setText(String.format("Descargando  [%d/%d] %s", counter.getCurrentValue(), total, target));
+            this.dLabel.setText(String.format("Descargando  [%d/%d] ", counter.getCurrentValue(), total));
             this.progress.setProgress((double)counter.getCurrentValue() / (double)total);
-            //System.out.println((double)counter.getCurrentValue() / (double)total);
-
         });
         
         counter.step();
     }
-    
-    
+
+    /**
+     * Cierra la ventana del la interfaz de descarga
+     */
+    public void close() {
+        ((Stage)root.getScene().getWindow()).close();
+    }
 }
