@@ -9,68 +9,56 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.proyecto2p.ui.controllers.GlobalDataController">
-   <children>
-      <HBox alignment="CENTER" prefHeight="103.0" prefWidth="600.0">
-         <children>
-            <Label text="Datos sobre el COVID-19" textFill="#4b79a7">
-               <font>
-                  <Font name="Eras Bold ITC" size="23.0" />
-               </font>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0"
+      prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.neoterux.proyecto2p.ui.controllers.GlobalDataController">
+    <HBox alignment="CENTER" prefHeight="103.0" prefWidth="600.0">
+        <Label text="Datos sobre el COVID-19" textFill="#4b79a7">
+            <font>
+                <Font name="Eras Bold ITC" size="23.0"/>
+            </font>
+        </Label>
+    </HBox>
+    <HBox alignment="CENTER" prefHeight="310.0" prefWidth="600.0">
+        <ImageView fx:id="imgViewMap" fitHeight="267.0" fitWidth="531.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@res/mapaMundi.png"/>
+        </ImageView>
+    </HBox>
+    <HBox alignment="CENTER" prefHeight="113.0" prefWidth="600.0" spacing="120.0">
+        <VBox alignment="CENTER" prefHeight="96.0" prefWidth="150.0" spacing="5.0">
+            <Label text="Casos globales" textFill="#4b79a7">
+                <font>
+                    <Font name="Eras Bold ITC" size="18.0"/>
+                </font>
             </Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="310.0" prefWidth="600.0">
-         <children>
-            <ImageView fx:id="imgViewMap" fitHeight="267.0" fitWidth="531.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@res/mapaMundi.png" />
-               </image></ImageView>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="113.0" prefWidth="600.0" spacing="120.0">
-         <children>
-            <VBox alignment="CENTER" prefHeight="96.0" prefWidth="150.0" spacing="5.0">
-               <children>
-                  <Label text="Casos globales" textFill="#4b79a7">
-                     <font>
-                        <Font name="Eras Bold ITC" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="numGlobalCases" text="##" textFill="#5d6d7e">
-                     <font>
-                        <Font name="Eras Bold ITC" size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" prefHeight="96.0" prefWidth="157.0" spacing="5.0">
-               <children>
-                  <Label text="Muertes globales" textFill="#4b79a7">
-                     <font>
-                        <Font name="Eras Bold ITC" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="numGlobalDeath" text="##" textFill="#5d6d7e">
-                     <font>
-                        <Font name="Eras Bold ITC" size="20.0" />
-                     </font>
-                  </Label>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="69.0" prefWidth="595.0">
-         <effect>
-            <ColorAdjust brightness="-0.07" contrast="-0.14" />
-         </effect>
-         <children>
-            <Button fx:id="btnConsultaPaises" mnemonicParsing="false" onAction="#consultaPais" style="-fx-background-color: #4B79A7;" text="Consulta por países" textFill="WHITE">
-               <font>
-                  <Font name="Eras Bold ITC" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
-   </children>
+            <Label fx:id="numGlobalCases" text="##" textFill="#5d6d7e">
+                <font>
+                    <Font name="Eras Bold ITC" size="20.0"/>
+                </font>
+            </Label>
+        </VBox>
+        <VBox alignment="CENTER" prefHeight="96.0" prefWidth="157.0" spacing="5.0">
+            <Label text="Muertes globales" textFill="#4b79a7">
+                <font>
+                    <Font name="Eras Bold ITC" size="18.0"/>
+                </font>
+            </Label>
+            <Label fx:id="numGlobalDeath" text="##" textFill="#5d6d7e">
+                <font>
+                    <Font name="Eras Bold ITC" size="20.0"/>
+                </font>
+            </Label>
+        </VBox>
+    </HBox>
+    <HBox alignment="CENTER" prefHeight="69.0" prefWidth="595.0">
+        <effect>
+            <ColorAdjust brightness="-0.07" contrast="-0.14"/>
+        </effect>
+        <Button fx:id="btnConsultaPaises" mnemonicParsing="false" onAction="#consultaPais"
+                style="-fx-background-color: #4B79A7;" text="Consulta por países" textFill="WHITE">
+            <font>
+                <Font name="Eras Bold ITC" size="12.0"/>
+            </font>
+        </Button>
+    </HBox>
 </VBox>

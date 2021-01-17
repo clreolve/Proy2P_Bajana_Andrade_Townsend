@@ -6,28 +6,29 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="307.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.proyecto2p.ui.controllers.VentanaConfirmacionController">
-   <children>
-      <Label layoutX="147.0" layoutY="40.0" text="Confirmación ">
-         <font>
-            <Font name="System Bold" size="32.0" />
-         </font>
-      </Label>
-      <Label layoutX="45.0" layoutY="94.0" maxHeight="119.0" maxWidth="415.0" minHeight="119.0" minWidth="415.0" prefHeight="119.0" prefWidth="415.0" text="Si en este momento tienes un diagnóstico de COVID 19 positivo, registra tu ubicación y así otras personas podrán identificar si has estado en la misma zona y podrán tomar las medidas adecuadas como aislamiento voluntario. No se registraran tus datos personales. " textAlignment="JUSTIFY" wrapText="true">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="159.0" layoutY="221.0" text="¿Deseas registrar tu ubicación?">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <HBox alignment="CENTER" layoutY="240.0" prefHeight="55.0" prefWidth="506.0" spacing="10.0">
-         <children>
-            <Button fx:id="btn_registrar" mnemonicParsing="false" onAction="#botonRegistrar" text="Registrar" />
-            <Button fx:id="btn_Cancelar" mnemonicParsing="false" onAction="#botonCancelar" text="Cancelar" />
-         </children>
-      </HBox>
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="307.0"
+            prefWidth="506.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.neoterux.proyecto2p.ui.controllers.VentanaConfirmacionController">
+    <Label layoutX="147.0" layoutY="40.0" text="Confirmación ">
+        <font>
+          <Font name="System Bold" size="32.0"/>
+        </font>
+    </Label>
+    <Label layoutX="45.0" layoutY="94.0" maxHeight="119.0" maxWidth="415.0" minHeight="119.0" minWidth="415.0"
+           prefHeight="119.0" prefWidth="415.0"
+           text="Si en este momento tienes un diagnóstico de COVID 19 positivo, registra tu ubicación y así otras personas podrán identificar si has estado en la misma zona y podrán tomar las medidas adecuadas como aislamiento voluntario. No se registraran tus datos personales. "
+           textAlignment="JUSTIFY" wrapText="true">
+        <font>
+          <Font size="15.0"/>
+        </font>
+    </Label>
+    <Label layoutX="159.0" layoutY="221.0" text="¿Deseas registrar tu ubicación?">
+        <font>
+          <Font name="System Bold" size="13.0"/>
+        </font>
+    </Label>
+    <HBox alignment="CENTER" layoutY="240.0" prefHeight="55.0" prefWidth="506.0" spacing="10.0">
+        <Button fx:id="btn_registrar" mnemonicParsing="false" onAction="#botonRegistrar" text="Registrar"/>
+        <Button fx:id="btn_Cancelar" mnemonicParsing="false" onAction="#botonCancelar" text="Cancelar"/>
+    </HBox>
 </AnchorPane>

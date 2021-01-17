@@ -106,7 +106,7 @@ public class MainController extends DownloadTask implements Initializable {
                 download = (DownloadController) App.showAndGetController("download_message", 253, 90, false);
                 download.setMaxProgress(total);
             });
-            
+
             while (download == null) {
                 Thread.onSpinWait();
                 // do nothing, only pass time
