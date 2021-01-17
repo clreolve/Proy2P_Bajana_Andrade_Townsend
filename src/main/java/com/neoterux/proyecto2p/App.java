@@ -6,13 +6,13 @@ import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * <h1>JavaFX App</h1><p>
@@ -45,7 +45,7 @@ public class App extends Application {
     /**
      * Objeto que contiene la direción de la carpeta de las banderas
      */
-    public static volatile Path FLAGS_PATH = Paths.get("imgs", "flags");
+    public static final Path FLAGS_PATH = Paths.get("imgs", "flags");
     
     /**
      * Objeto que contiene la direción de la carpeta de los paises
@@ -56,14 +56,14 @@ public class App extends Application {
     /**
      * Objeto que contiene la direción de la carpeta de los datos a utilizar
      */
-    public static volatile Path FILES_PATH = Paths.get("data");
+    public static final Path FILES_PATH = Paths.get("data");
     
     private static final Logger logger = LogManager.getLogger(App.class);
     
     /**
      * Grupo de threads que pertenezcan a esta app.
      */
-    public static ThreadGroup appThreadGroup = new ThreadGroup("Proyect2"); 
+    public static final ThreadGroup appThreadGroup = new ThreadGroup("Proyect2");
     
     /**
      * Escena principal de la aplicación.

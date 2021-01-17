@@ -6,6 +6,9 @@
 package com.neoterux.proyecto2p.model;
 
 import com.neoterux.proyecto2p.App;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,8 +18,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * <h1>Continent</h1>
@@ -27,10 +28,10 @@ import org.apache.logging.log4j.Logger;
 public class Continent {
     
     private static List<Continent> continentes;
-    private static Logger logger = LogManager.getLogger(Continent.class);
+    private static final Logger logger = LogManager.getLogger(Continent.class);
     
     private String name;
-    private List<Country> countries;
+    private final List<Country> countries;
 
     public Continent(String name) {
         countries = new ArrayList<>();
@@ -55,9 +56,7 @@ public class Continent {
             
             try (var reader = new BufferedReader(new FileReader(file), 1024)) {
                 
-                reader.lines().forEach(it -> {
-                    lst.add(new Continent(it));
-                });
+                reader.lines().forEach(it -> lst.add(new Continent(it)));
                 
                 
                 
@@ -99,13 +98,6 @@ public class Continent {
     }
 
     /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * @return the countries
      */
     public List<Country> getCountries() {
@@ -122,9 +114,7 @@ public class Continent {
             try (var reader = new BufferedReader(new FileReader(file))) {
                 
                 var continentMap = new HashMap<String,Continent>();
-                continentes.forEach(cont->{
-                    continentMap.put(cont.getName().toLowerCase(), cont);
-                });
+                continentes.forEach(cont-> continentMap.put(cont.getName().toLowerCase(), cont));
                 
                 reader.lines()
                         .skip(1) // Skip header of .csv file
