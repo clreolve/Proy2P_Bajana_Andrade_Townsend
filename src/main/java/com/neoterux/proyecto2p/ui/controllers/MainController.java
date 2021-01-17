@@ -7,96 +7,61 @@ package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.net.DownloadTask;
+import com.neoterux.proyecto2p.utils.LocaleUtils;
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.util.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import javax.imageio.ImageIO;
 
 /**
+ * <h1>Main Controller</h1>
+ * <p>Controlador de la interfaz principal.</p>
  *
  * @author neoterux
  */
 public class MainController extends DownloadTask implements Initializable {
 
-    private static Logger logger = LogManager.getLogger(MainController.class);
+    private static final Logger logger = LogManager.getLogger(MainController.class);
 
-    private DownloadController download;
-    private Stage downloadStage;
-    private final Map<String, Locale> localeMap;
-
-    /**
-     * Configura la escena del Main
-     *
-     */
-    public MainController() {
-        try {
-            var loader = new FXMLLoader(App.class.getResource("ui/download_message.fxml"));
-            this.downloadStage = new Stage();
-            this.downloadStage.setAlwaysOnTop(true);
-            this.downloadStage.initModality(Modality.APPLICATION_MODAL);
-            //this.downloadStage.setResizable(false);
-            this.downloadStage.setScene(new Scene(loader.load()));
-            download = loader.getController();
-
-        } catch (IOException ex) {
-            logger.error(ex);
-        }
-        //Configure locale translations
-        final String[] countries = Locale.getISOCountries();
-        localeMap = new HashMap<>(countries.length);
-        Arrays.stream(countries).forEach((t) -> {
-            var loc = new Locale("", t);
-            localeMap.put(loc.getISO3Country().toUpperCase(), loc);
-        });
-
-    }
+    private volatile DownloadController download;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new Thread(App.appThreadGroup, this, "DownloadFlagThread").start();
-
     }
 
+    /**
+     * Cambia la interfaz principal a la interfaz de datos globales.
+     * @param event action event
+     */
     @FXML
     void globalAction(ActionEvent event) {
-
-        
         // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML. YAPS done
         App.setRoot("globalData", "Datos globales", 550, 620);
-        
-
     }
 
+    /**
+     * Cambia la interfaz principal a la interfáz de datos locales.
+     * @param event action event
+     */
     @FXML
-    void zoneAction(ActionEvent event) throws IOException {
-
-        //Stage stage = new Stage();
-        //stage.setScene(new Scene(App.loadFXML("ui/VentanaMapa"), 680, 600));
-        //stage.show();
+    void zoneAction(ActionEvent event){
         App.setRoot("VentanaMapa", "Datos locales", 600, 680);
-
     }
 
     private synchronized static String getFlagUrl(String iso_code) {
@@ -115,15 +80,10 @@ public class MainController extends DownloadTask implements Initializable {
 
     }
 
-    private synchronized String iso3ToIso2(String iso3) {
-        var y = localeMap.get(iso3);
-        if (y == null) {
-            //System.out.println("xd " + iso3);
-            return "";
-        }
-        return y.getCountry();
-    }
-  
+    /**
+     * Operación que se realiza durante la descarga
+     * @throws IOException si ocurre algún error al escribir las imágenes.
+     */
     @Override
     public void onDownload() throws IOException {
         var file = Paths.get(App.class.getResource("res/owid-covid-data_.csv").getFile()).toFile();
@@ -132,7 +92,7 @@ public class MainController extends DownloadTask implements Initializable {
                 .map(it -> it.split("[|]"))
                 //first: iso_code, second: country_name
                 .filter(it -> it[0].length() == 3)
-                .map(it -> new Pair<>(iso3ToIso2(it[0]), it[2].toLowerCase()))
+                .map(it -> new Pair<>(LocaleUtils.iso3toIso2(it[0]), it[2].toLowerCase()))
                 .distinct()
                 .map(ci -> new Pair<>(Paths.get(App.FLAGS_PATH.toString(), ci.getValue() + ".png").toFile(), ci.getKey()))
                 .filter(it -> !it.getKey().exists())
@@ -142,13 +102,16 @@ public class MainController extends DownloadTask implements Initializable {
         var total = country_info.size();
         if (total > 0) {
             logger.info("Downloading flags");
-            download.setMaxProgress(total);
             Platform.runLater(() -> {
-                downloadStage.show();
+                download = (DownloadController) App.showAndGetController("download_message", 253, 90, false);
+                download.setMaxProgress(total);
             });
-
+            
+            while (download == null) {
+                Thread.onSpinWait();
+                // do nothing, only pass time
+            }
             country_info
-                    .stream()
                     .forEach(ci -> {
 
                         download.updateProgress();
@@ -159,6 +122,7 @@ public class MainController extends DownloadTask implements Initializable {
 
                     });
             logger.info("Finish download images");
+
         } else {
             System.gc();
         }
@@ -172,7 +136,8 @@ public class MainController extends DownloadTask implements Initializable {
     @Override
     public void onCompleted() {
         System.gc();
-        Platform.runLater(() -> downloadStage.close());
+        if(download != null)
+            Platform.runLater(() -> download.close());
     }
 
 }
