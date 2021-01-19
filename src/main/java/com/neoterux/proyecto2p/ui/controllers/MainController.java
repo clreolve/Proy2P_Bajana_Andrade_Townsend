@@ -66,6 +66,7 @@ public class MainController extends DownloadTask implements Initializable {
      */
     @FXML
     void zoneAction(ActionEvent event){
+        //var zonestg = App.newWindow("ui/VentanaMapa",680, 600);
         var zonestg = App.newWindow("ui/VentanaMapa",680, 600);
         zonestg.setTitle("Datos locales");
         zonestg.initModality(Modality.WINDOW_MODAL);

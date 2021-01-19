@@ -22,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 //Autor: AndradeLuis
 
@@ -34,11 +36,19 @@ public class VentanaMapaController implements Initializable, Serializable {
     BufferedWriter bw = null;
     PrintWriter pw = null;
 
+    private final Image imagen = new Image(App.resourceFrom(App.class, "ui/res/mapaguayaquil.png").toExternalForm());
+    private final Image usuario = new Image(App.resourceFrom(App.class, "ui/res/marcador_persona.png").toExternalForm());
+    private final Image virus = new Image(App.resourceFrom(App.class, "ui/res/marcador_virus.png").toExternalForm());
+
+    private Point punto_principal;
+
+    private ImageView marcador;
+
+    @FXML
+    private StackPane area_interactiva;
+
     @FXML
     private ImageView mapa;
-
-    private final Image imagen = new Image(App.resourceFrom(App.class, "ui/res/mapaguayaquil.png").toExternalForm());
-    private Point punto_principal;
 
     @FXML
     private Button btn_registrar;
@@ -58,7 +68,7 @@ public class VentanaMapaController implements Initializable, Serializable {
                     texto.setStyle("-fx-text-fill:green;");
                     RegistroDatos();
                     Serializar();
-         
+
                 }
             });
         } else {
@@ -77,16 +87,24 @@ public class VentanaMapaController implements Initializable, Serializable {
         texto.setText(" ");
         mapa.setImage(imagen);
         coordenadas();
+
     }
 
     public void coordenadas() {
-
         mapa.setPickOnBounds(true); // Esto permite la deteccion de clicks en la imagen
         mapa.setOnMouseClicked(e -> {
             System.out.println("[" + e.getX() + " , " + e.getY() + "]");
             punto_principal = new Point(e.getX(), e.getY());
+            //marcador.setImage(usuario);
+            //marcador.setVisible(true);
+            /*
+            marcador = new ImageView(usuario);
+            marcador.setFitHeight(5);
+            marcador.setFitWidth(5);
+            marcador.setLayoutX(e.getX());
+            marcador.setLayoutY(e.getY());
+             */
             int counter = 0;
-
             for (Point points : Point.loadPoints()) {
                 if (Point.distancia(punto_principal, points) <= 100) {
                     counter++;
@@ -96,7 +114,6 @@ public class VentanaMapaController implements Initializable, Serializable {
             texto.setText("Se han encontrado " + counter + " personas cercanas a tu ubicacion que han registrado positivos");
         }
         );
-
     }
 
     public void RegistroDatos() {

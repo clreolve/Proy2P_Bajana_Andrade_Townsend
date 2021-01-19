@@ -14,17 +14,19 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
  * <h1> Point </h1>
- * <p>Clase que representa un punto 2D </p>
+ * <p>
+ * Clase que representa un punto 2D </p>
  *
  * @author neoterux
  */
 public class Point {
-    
+
     private static final Logger logger = LogManager.getLogger(Point.class);
 
     private double x;
@@ -62,16 +64,16 @@ public class Point {
     public static double distancia(Point p0, Point pf) {
         return Math.sqrt(Math.pow((pf.x - p0.x), 2) + Math.pow((pf.y - p0.y), 2));
     }
-    
+
     /**
      * Carga los puntos del archivo lugares.txt
-     * 
+     *
      * @return lista con los puntos parseados del archivo.
      */
     public static List<Point> loadPoints() {
         var plist = new ArrayList<Point>();
         logger.info("reading lugares.txt");
-        var file = Paths.get(App.FILES_PATH.toString(),"lugares.txt").toFile();
+        var file = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
 
         try (var reader = new BufferedReader(new FileReader(file))) {
 
@@ -80,13 +82,12 @@ public class Point {
                     .map(par -> new Point(Double.parseDouble(par[0]), Double.parseDouble(par[1])))
                     .forEach(plist::add);
             logger.info("lugares.txt successfully readed");
-        }catch (FileNotFoundException fnf){
+        } catch (FileNotFoundException fnf) {
             logger.error("archivo lugares.txt no se encuentra en la capeta data");
             new Alert(Alert.AlertType.ERROR, "Archivo lugares.txt no se encuentra en la carpeta data.").showAndWait();
-        }catch (IOException ioe) {
+        } catch (IOException ioe) {
             logger.error("IOException ocured when trying to read lugares.txt", ioe);
-        } 
+        }
         return plist;
     }
-    
 }
