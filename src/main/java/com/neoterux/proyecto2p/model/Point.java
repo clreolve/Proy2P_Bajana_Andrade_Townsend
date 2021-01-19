@@ -71,7 +71,7 @@ public class Point {
     public static List<Point> loadPoints() {
         var plist = new ArrayList<Point>();
         logger.info("reading lugares.txt");
-        var file = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
+        var file = Paths.get(App.FILES_PATH.toString(),"lugares.txt").toFile();
 
         try (var reader = new BufferedReader(new FileReader(file))) {
 
@@ -88,4 +88,5 @@ public class Point {
         } 
         return plist;
     }
+    
 }

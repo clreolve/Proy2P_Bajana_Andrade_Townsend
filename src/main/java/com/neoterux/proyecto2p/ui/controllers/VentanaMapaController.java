@@ -2,8 +2,18 @@ package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Point;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,9 +22,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 //Autor: AndradeLuis
 
-public class VentanaMapaController implements Initializable {
+public class VentanaMapaController implements Initializable, Serializable {
+
+    File archivo = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
+    File archivo_deserealizado;
+
+    FileWriter fw = null;
+    BufferedWriter bw = null;
+    PrintWriter pw = null;
 
     @FXML
     private ImageView mapa;
@@ -32,15 +50,26 @@ public class VentanaMapaController implements Initializable {
     private Label texto;
 
     public void botonRegistrar(ActionEvent event) {
-        texto.setText("Boton Oprimido");
-        var stage = App.newWindow("ui/VentanaConfirmacion", 506, 307);
-        
-        stage.show();
+        if (punto_principal != null) {
+            btn_registrar.setOnAction(e -> {
+                boolean answer = VentanaConfirmacion.display();
+                if (answer == true) {
+                    texto.setText("Registro realizado exitosamente");
+                    texto.setStyle("-fx-text-fill:green;");
+                    RegistroDatos();
+                    Serializar();
+         
+                }
+            });
+        } else {
+            texto.setText("Seleccione primero una ubicación en el mapa");
+        }
     }
 
     public void botonCerrar() {
         texto.setText("Otro boton Oprimido");
-        App.setRoot("main");
+        Stage stage = (Stage) btn_cerrar.getScene().getWindow();
+        stage.close();
     }
 
     @Override
@@ -51,25 +80,49 @@ public class VentanaMapaController implements Initializable {
     }
 
     public void coordenadas() {
+
         mapa.setPickOnBounds(true); // Esto permite la deteccion de clicks en la imagen
         mapa.setOnMouseClicked(e -> {
             System.out.println("[" + e.getX() + " , " + e.getY() + "]");
             punto_principal = new Point(e.getX(), e.getY());
             int counter = 0;
+
             for (Point points : Point.loadPoints()) {
-                if (Point.distancia(getPunto_principal(), points) <= 100) {
+                if (Point.distancia(punto_principal, points) <= 100) {
                     counter++;
                 }
             }
             System.out.println(counter);
-            texto.setText("Se han encontrado "+counter+" cercanas a tu ubicacion que han registrado positivos");
-        });
+            texto.setText("Se han encontrado " + counter + " personas cercanas a tu ubicacion que han registrado positivos");
+        }
+        );
+
     }
 
-    /**
-     * @return the punto_principal
-     */
-    public Point getPunto_principal() {
-        return punto_principal;
+    public void RegistroDatos() {
+        try {
+            fw = new FileWriter(archivo, true);
+            bw = new BufferedWriter(fw);
+            bw.append("\n" + punto_principal.getX() + "-" + punto_principal.getY());
+            bw.close();
+            fw.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void Serializar() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("data/lugares.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(archivo);
+            out.close();
+            fileOut.close();
+            System.out.println("Archivo guardado");
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
