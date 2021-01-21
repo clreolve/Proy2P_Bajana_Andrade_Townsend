@@ -130,7 +130,10 @@ public class App extends Application {
             var root  = (Parent)loader.load();
             if (scene == null) scene = new Scene(root);
             else scene.setRoot(root);
-        }catch (IOException ioe){
+        }catch (LoadException le){
+            logger.error("Hay un error en el fxml, por favor revisa el archivo", le);
+        }
+        catch (IOException ioe){
             logger.error("IOException ocurred when reading fxml: ", ioe);
         }catch (IllegalStateException ise){
             logger.error("fxml name/location is bad, or cannot locate fxml in ui folder: ", ise);
@@ -234,7 +237,10 @@ public class App extends Application {
                 mainStage.setMinHeight(minheight);
                 mainStage.setMinWidth(minwidth);
             }
-        }catch (IOException ioe){
+        }catch (LoadException le){
+            logger.error("Error al leer fxml, revisa el archivo", le);
+        }
+        catch (IOException ioe){
             logger.error("Error al cargar el fxml", ioe);
         }
         
@@ -259,7 +265,11 @@ public class App extends Application {
             nstage.setMinHeight(minheight);
             nstage.initOwner(mainStage);
             return nstage;
-        }catch (IOException ioe){
+        }catch (LoadException le){
+            logger.error("Hay un error en el archivo fxml ", le);
+            throw new RuntimeException("Error al crear nueva ventana", le);
+        }
+        catch (IOException ioe){
             logger.error("Error al leer fxml: ", ioe);
             throw new RuntimeException("Error al crear nueva ventana", ioe);
         }
