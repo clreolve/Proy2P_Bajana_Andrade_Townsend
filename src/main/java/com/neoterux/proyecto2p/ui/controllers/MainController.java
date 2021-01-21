@@ -20,10 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
@@ -96,7 +93,9 @@ public class MainController extends DownloadTask implements Initializable {
      */
     @Override
     public void onDownload() throws IOException {
-        var file = Paths.get(App.class.getResource("res/owid-covid-data_.csv").getFile()).toFile();
+        var file = Paths.get(App.FILES_PATH.toString(), "owid-covid-data_.csv").toFile();
+
+        // var file = Paths.get(App.class.getResource("res/owid-covid-data_.csv").getFile()).toFile();
         var reader = new BufferedReader(new FileReader(file));
         var country_info = reader.lines().skip(1)
                 .map(it -> it.split("[|]"))
@@ -113,13 +112,14 @@ public class MainController extends DownloadTask implements Initializable {
         if (total > 0) {
             logger.info("Downloading flags");
             Platform.runLater(() -> {
-                download = (DownloadController) App.showAndGetController("download_message", 253, 90, false);
+                download = (DownloadController) App.showAndGetController("download_message",
+                                                                    253, 90, false);
                 download.setMaxProgress(total);
             });
 
             while (download == null) {
                 Thread.onSpinWait();
-                // do nothing, only pass time
+                // do nothing, only busy wait until Javafx Thread load the download Controller
             }
             country_info
                     .forEach(ci -> {
@@ -133,14 +133,17 @@ public class MainController extends DownloadTask implements Initializable {
                     });
             logger.info("Finish download images");
 
-        } else {
-            System.gc();
         }
+        System.gc();
     }
 
     @Override
     public void onError(IOException ex) {
-        logger.error(ex);
+        if (ex instanceof FileNotFoundException){
+            logger.error("file not found", ex);
+        }else {
+            logger.error("unknown IOException ocurred on downloadThread", ex);
+        }
     }
 
     @Override
