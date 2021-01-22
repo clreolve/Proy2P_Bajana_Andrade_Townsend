@@ -49,7 +49,7 @@ public class MainController extends DownloadTask implements Initializable {
      */
     @FXML
     void globalAction(ActionEvent event) {
-        // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML. YAPS done
+        // !-----------------CAMBIAR EL STRING DE APP.SETROOT PARA IR A TU FXML. 
         var globstg = App.newWindow("ui/globalData", 620, 550);
         globstg.setTitle("Datos globales");
         globstg.initModality(Modality.WINDOW_MODAL);
