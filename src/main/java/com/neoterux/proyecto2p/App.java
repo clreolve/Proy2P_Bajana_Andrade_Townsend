@@ -142,6 +142,48 @@ public class App extends Application {
         }
         
     }
+
+    /**
+     * Cambia el scene de la ventana objetivo.
+     * Ejemplo:<pre>{@code
+     *  public class FooController {
+     *      // code...
+     *      @FXML
+     *      private Node nodeInWindow;
+     *      //code...
+     *
+     *      private void doSomething() {
+     *          // code
+     *          var windowStage = (Stage) nodeInWindow.getScene().getWindow();
+     *          App.setRoot(windowStage, "example_fxml", "test window", 600, 800);
+     *      }
+     *  }
+     *
+     * }</pre>
+     * @param targetWindow ventana objetivo a la cual se le va a cambiar el scene.
+     * @param fxml nombre o ubicación relativa del fxml en el paquete ui.
+     * @param title nuevo título de la ventana.
+     * @param minHeight altura mínima a sobreescribir de la ventana. -1 si se quiere conservar
+     *                  el valor actual de la ventana.
+     * @param minWidth  ancho mínimo a sobreescribir de la ventana. -1 si se quiere conservar
+     *                  el valor actual.
+     */
+    public static void setRoot(Stage targetWindow, String fxml, String title, int minHeight, int minWidth){
+        try {
+            var loader = new FXMLLoader(App.class.getResource( "ui/" + fxml + ".fxml"));
+            var root  = (Parent)loader.load();
+            targetWindow.setScene(new Scene(root, minWidth, minHeight));
+        }catch (LoadException le){
+            logger.error("Hay un error en el fxml, por favor revisa el archivo", le);
+        }
+        catch (IOException ioe){
+            logger.error("IOException ocurred when reading fxml: ", ioe);
+        }catch (IllegalStateException ise){
+            logger.error("fxml name/location is bad, or cannot locate fxml in ui folder: ", ise);
+        }finally{
+            mainStage.setTitle(title);
+        }
+    }
     
     /**
      * Cambia el stage principal, por otra escena a partir de un fxml.
