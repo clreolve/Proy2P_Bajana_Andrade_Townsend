@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -54,7 +55,9 @@ public class CountryController implements Initializable {
     
     @FXML
     private Button btnConsulta;
-
+    
+    @FXML
+    private Node principal;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -137,9 +140,8 @@ public class CountryController implements Initializable {
      */
     @FXML
     public void consultaAction(){
-        Stage contryStg = App.newWindow("ui/dashboard", 680, 550);
-        contryStg.setTitle("Dashboard");
-        contryStg.showAndWait();
+        var windowStage = (Stage) principal.getScene().getWindow();
+        App.setRoot(windowStage, "dashboard", "Dashboard", 600, 800);
     }
     
     
