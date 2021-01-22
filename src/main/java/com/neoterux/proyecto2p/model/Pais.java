@@ -5,11 +5,13 @@
  */
 package com.neoterux.proyecto2p.model;
 
+import com.neoterux.proyecto2p.App;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -20,15 +22,13 @@ public class Pais {
     private String nombre;
     private int casos;
     private int muertes;
-    public static int casosTotales;
-    public static int muertesTotales;
+
 
     public Pais(String nombre, int casos, int muertes) {
         this.nombre = nombre;
         this.casos = casos;
         this.muertes = muertes;
-        casosTotales += casos;
-        muertesTotales += muertes;
+
     }
 
     @Override
@@ -48,61 +48,43 @@ public class Pais {
         return muertes;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setCasos(int casos) {
-        this.casos = casos;
-    }
-
-    public void setMuertes(int muertes) {
-        this.muertes = muertes;
-    }
 
     public static ArrayList<Pais> cargarPaises() {
 
         ArrayList<Pais> paises = new ArrayList();
 
-        try (BufferedReader bf = new BufferedReader(new FileReader("src/main/resources/com/neoterux/proyecto2p/res/globales.csv"))) {
+        try (BufferedReader bf = new BufferedReader(new FileReader(App.FILES_PATH+"/globales.csv"))) {
             String linea;
             String nombre;
             int muertes;
             int casos;
-            boolean encabezado = true;
+            bf.readLine();
             while ((linea = bf.readLine()) != null) {
-                if (encabezado) {
-                    System.out.println("Encabezado leído");
-                    encabezado = false;
-                } else {
                     String d[] = linea.split("\\|");
-
                     if (d.length == 3) {
-                        if(d[1] != null){
-                        nombre = d[0];
-                        casos = Integer.parseInt(d[1]);
-                        muertes = Integer.parseInt(d[2]);
-                        paises.add(new Pais(nombre,casos,muertes));
-                        }else{
-                        nombre = d[0];
-                        casos = 0;
-                        muertes = Integer.parseInt(d[2]);
-                        paises.add(new Pais(nombre,casos,muertes));
-                        }               
+                        if (d[1] != null) {
+                            nombre = d[0];
+                            casos = Integer.parseInt(d[1]);
+                            muertes = Integer.parseInt(d[2]);
+                            paises.add(new Pais(nombre, casos, muertes));
+                        } else {
+                            nombre = d[0];
+                            casos = 0;
+                            muertes = Integer.parseInt(d[2]);
+                            paises.add(new Pais(nombre, casos, muertes));
+                        }
                     } else {
                         nombre = d[0];
                         casos = Integer.parseInt(d[1]);
                         muertes = 0;
-                        paises.add(new Pais(nombre,casos,muertes));
+                        paises.add(new Pais(nombre, casos, muertes));
                     }
                 }
-            }
-
+          
         } catch (FileNotFoundException ex) {
-            System.out.println(ex.getStackTrace());
-            System.out.println(ex.getLocalizedMessage());
+            new Alert(Alert.AlertType.WARNING, "Existen problemas para encontrar el archivo globales.csv. Estamos solucionando.").showAndWait();
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            new Alert(Alert.AlertType.WARNING, "Existen problemas de lectura del archivo globales.csv. Estamos solucionando.").showAndWait();
         }
 
         return paises;
