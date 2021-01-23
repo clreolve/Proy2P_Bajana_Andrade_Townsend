@@ -181,7 +181,7 @@ public class App extends Application {
         }catch (IllegalStateException ise){
             logger.error("fxml name/location is bad, or cannot locate fxml in ui folder: ", ise);
         }finally{
-            mainStage.setTitle(title);
+            targetWindow.setTitle(title);
         }
     }
     
