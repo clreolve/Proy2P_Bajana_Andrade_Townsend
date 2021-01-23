@@ -26,30 +26,30 @@ import java.util.List;
  * @author neoterux
  */
 public class Point {
-
+    
     private static final Logger logger = LogManager.getLogger(Point.class);
     private static List<Point> points;
-
+    
     private double x;
     private double y;
-
+    
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
-
+    
     public double getX() {
         return this.x;
     }
-
+    
     public double getY() {
         return this.y;
     }
-
+    
     public void setX(double x) {
         this.x = x;
     }
-
+    
     public void setY(double y) {
         this.y = y;
     }
@@ -76,11 +76,11 @@ public class Point {
             var plist = new ArrayList<Point>();
             logger.info("reading lugares.txt");
             var file = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
-
+            
             try (var reader = new BufferedReader(new FileReader(file))) {
-
                 reader.lines()
                         .map(it -> it.split("-"))
+                        .filter(it -> it.length == 2)
                         .map(par -> new Point(Double.parseDouble(par[0]), Double.parseDouble(par[1])))
                         .forEach(plist::add);
                 logger.info("lugares.txt successfully readed");

@@ -11,7 +11,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="680.0" spacing="15.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.proyecto2p.ui.controllers.VentanaMapaController">
    <children>
         <Text fill="#0018b2" strokeType="OUTSIDE" strokeWidth="0.0" text="Consulta por tu ubicacion">
@@ -21,7 +20,7 @@
         </Text>
       <StackPane fx:id="area_interactiva" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="680.0" scaleX="1.990654206" VBox.vgrow="NEVER">
          <children>
-            <ImageView fx:id="mapa" fitHeight="340.0" fitWidth="340.0" onMouseClicked="#mouseClick" pickOnBounds="true">
+            <ImageView fx:id="mapa" fitHeight="340.0" fitWidth="340.0" pickOnBounds="true">
                <image>
                   <Image url="@res/mapaguayaquil.png" />
                </image>
@@ -30,7 +29,7 @@
       </StackPane>
        <Label fx:id="texto" text="Label" />
        <HBox alignment="CENTER" prefHeight="130.0" prefWidth="686.0" spacing="10.0">
-           <Button fx:id="btn_registrar" disable="true" mnemonicParsing="false" onAction="#botonRegistrar" prefWidth="150.0" text="Registra tu ubicacion" HBox.hgrow="ALWAYS" />
+           <Button fx:id="btn_registrar" mnemonicParsing="false" onAction="#botonRegistrar" prefWidth="150.0" text="Registra tu ubicacion" HBox.hgrow="ALWAYS" />
            <Button fx:id="btn_cerrar" mnemonicParsing="false" onAction="#botonCerrar" text="Cerrar" />
        </HBox>
    </children>

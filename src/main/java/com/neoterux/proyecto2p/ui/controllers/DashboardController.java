@@ -40,45 +40,57 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * <h1>DahsboardController</h1>
- * <p>Controlador de la interfaz del dashboard</p>
+ * <p>
+ * Controlador de la interfaz del dashboard</p>
  *
  * @author neoterux
  */
-public class DashboardController implements Initializable, Runnable{
-    
+public class DashboardController implements Initializable, Runnable {
+
     private final Logger logger = LogManager.getLogger(getClass());
-    
+
     /**
-     * Es el ThreadPool que contendrá a las tareas de búsqueda repetitivas, 
+     * Es el ThreadPool que contendrá a las tareas de búsqueda repetitivas,
      * corriendo en el fondo.
      */
     private final ExecutorService searchPool;
     private final File dataFile;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private String[] lastData;
-    
-    @FXML private ComboBox<Country> cbxCountry;
-    
-    @FXML private ImageView countryImg;
 
-    @FXML private ComboBox<Continent> cbxContinent;
+    @FXML
+    private ComboBox<Country> cbxCountry;
 
-    @FXML private DatePicker dpTargetDate;
+    @FXML
+    private ImageView countryImg;
 
-    @FXML private GridPane dataContainer;
+    @FXML
+    private ComboBox<Continent> cbxContinent;
 
-    @FXML private Label lblTotales;
+    @FXML
+    private DatePicker dpTargetDate;
 
-    @FXML private Label lblMuertes;
+    @FXML
+    private GridPane dataContainer;
 
-    @FXML private Label lblDiario;
+    @FXML
+    private Label lblTotales;
 
-    @FXML private Label lblMuertesDiario;
+    @FXML
+    private Label lblMuertes;
 
-    @FXML private Label lblPoblacion;
+    @FXML
+    private Label lblDiario;
 
-    @FXML private Label cLabel;
-    
+    @FXML
+    private Label lblMuertesDiario;
+
+    @FXML
+    private Label lblPoblacion;
+
+    @FXML
+    private Label cLabel;
+
     /**
      * Configura el controlador.
      */
@@ -86,49 +98,50 @@ public class DashboardController implements Initializable, Runnable{
         searchPool = Executors.newFixedThreadPool(1);
         dataFile = Paths.get(App.FILES_PATH.toString(), "owid-covid-data_.csv").toFile();
     }
-    
+
     /**
-     * Este método se encarga de configurar o realizar procesos antes de cargar el gui.
-     * 
+     * Este método se encarga de configurar o realizar procesos antes de cargar
+     * el gui.
+     *
      * @param url url
      * @param rb resource bundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         logger.info("Initializing Dashboard Scene");
-        
+
         if (cbxContinent.getItems().setAll(Continent.loadContinents())) {
             logger.debug("Added continents correctly");
         } else {
             logger.debug("Cannot add continents correctly");
         }
-        
+
         var counter = new Counter(0);
-        
-        var counterThread = new Thread(App.appThreadGroup, ()->{
-            
-            while(true){
-                
+
+        var counterThread = new Thread(App.appThreadGroup, () -> {
+
+            while (true) {
+
                 try {
                     //noinspection BusyWait
                     Thread.sleep(1000);
-                    Platform.runLater(()->cLabel.setText(String.format("Tiempo en la aplicación: %d segundos", counter.getCurrentValue())));
+                    Platform.runLater(() -> cLabel.setText(String.format("Tiempo en la aplicación: %d segundos", counter.getCurrentValue())));
                     counter.step();
                 } catch (InterruptedException ex) {
                     logger.error("Thread interrumped", ex);
                 }
             }
-        
+
         }, "Counter Thread");
-        
+
         counterThread.start();
         
     }
-    
+
     /**
      * Función que se ejecuta al presional el boton cerrar.
-     * 
-     * @param event action event 
+     *
+     * @param event action event
      */
     @FXML
     void exitAction(ActionEvent event) {
@@ -137,53 +150,56 @@ public class DashboardController implements Initializable, Runnable{
 
     /**
      * Método que se realiza al momento de presionar el boton de consultar.
+     *
      * @param event action event
      */
     @FXML
     void searchAction(ActionEvent event) {
-        if (cbxCountry.getSelectionModel().getSelectedItem() == null || dpTargetDate.getValue() == null ) {
+        if (cbxCountry.getSelectionModel().getSelectedItem() == null || dpTargetDate.getValue() == null) {
             new Alert(Alert.AlertType.ERROR, "Verifique que ha seleccionado todos los criterios de búsqueda").showAndWait();
-        }else {
-            if (((ThreadPoolExecutor)searchPool).getActiveCount() == 0){
+        } else {
+            if (((ThreadPoolExecutor) searchPool).getActiveCount() == 0) {
                 searchPool.submit(this);
-            }else {
+            } else {
                 new Alert(Alert.AlertType.WARNING, "Ya se está realizando una búsqueda, espere porfavor.").showAndWait();
             }
         }
-        
+
     }
-    
+
     /**
-     * Método que se ejecuta cuando se clickea el vbox de la poblacion, muestra la 
-     * ventana con información extra del país.
-     * 
-     * @param event mouse event 
+     * Método que se ejecuta cuando se clickea el vbox de la poblacion, muestra
+     * la ventana con información extra del país.
+     *
+     * @param event mouse event
      */
     @FXML
     void onPoblationClick(MouseEvent event) {
         logger.debug("Poblation clicked");
-        
+
         var dlgController = App.showAndGetController("poblation_data", 340, 300, false);
-        
-        ((PoblationDataController)dlgController).sendData(lastData);
-        
+
+        ((PoblationDataController) dlgController).sendData(lastData);
+
     }
-    
+
     /**
-     * Método que se ejecuta cuando se elige un continente del combobox {@link #cbxContinent}
-     * cargando los paises correspondientes en el combobox {@link #cbxCountry}.
-     * 
+     * Método que se ejecuta cuando se elige un continente del combobox
+     * {@link #cbxContinent} cargando los paises correspondientes en el combobox
+     * {@link #cbxCountry}.
+     *
      * @param event action event
      */
     @FXML
     void continentSelected(ActionEvent event) {
         var selected_continent = cbxContinent.getSelectionModel().getSelectedItem();
-        
+
         this.cbxCountry.getItems().setAll(selected_continent.getCountries());
     }
-    
+
     /**
-     * Realiza la búsqueda de los infectados, muertos, etc del archivo owid-covid-data_.csv
+     * Realiza la búsqueda de los infectados, muertos, etc del archivo
+     * owid-covid-data_.csv
      */
     @Override
     public void run() {
@@ -191,7 +207,7 @@ public class DashboardController implements Initializable, Runnable{
         var date = formatter.format(dpTargetDate.getValue());
         var start = System.nanoTime();
         // Read dataset with 10MiB Buffer
-        try (var reader = new BufferedReader(new FileReader(dataFile), 10240)){
+        try (var reader = new BufferedReader(new FileReader(dataFile), 10240)) {
             var result = reader.lines()
                     .skip(1) // Skip csv header
                     //.parallel()
@@ -201,13 +217,13 @@ public class DashboardController implements Initializable, Runnable{
                     .peek(it -> System.out.println(Arrays.toString(it)))
                     .findFirst()
                     .orElse(null);
-            
+
             Platform.runLater(() -> {
-                if (result == null){
-                
+                if (result == null) {
+
                     new Alert(Alert.AlertType.INFORMATION, "No se han encontrado datos.").showAndWait();
-                
-                }else{
+
+                } else {
                     lastData = result;
                     //this.dataContainer.setVisible(true);
                     this.lblTotales.setText(result[4]);
@@ -215,48 +231,44 @@ public class DashboardController implements Initializable, Runnable{
                     this.lblMuertes.setText(result[6]);
                     this.lblMuertesDiario.setText(result[7]);
                     this.lblPoblacion.setText(result[8]);
-                    var url = getImgUrl(result[0]); 
+                    var url = getImgUrl(result[0]);
                     logger.debug("img url: " + url);
                     this.countryImg.setImage(new Image(url));
-                    if (!this.dataContainer.isVisible()){
+                    if (!this.dataContainer.isVisible()) {
                         var transition = new FadeTransition(Duration.millis(240), dataContainer);
-                                transition.setFromValue(0);
-                                transition.setToValue(2);
-                                transition.setInterpolator(Interpolator.EASE_IN);
+                        transition.setFromValue(0);
+                        transition.setToValue(2);
+                        transition.setInterpolator(Interpolator.EASE_IN);
                         this.dataContainer.setVisible(true);
                     }
-                    
-                    
+
                 }
-            
+
             });
-            
-        }catch (FileNotFoundException fnf){
+
+        } catch (FileNotFoundException fnf) {
             logger.error("Covid dataset not found", fnf);
-        } catch (IOException ioe){
+        } catch (IOException ioe) {
             logger.error("IOException ocurred when trying to load dataset.", ioe);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("Unknown exception ocurred when trying to load dataset", e);
         }
-        
+
         var end = System.nanoTime();
-        
-        logger.debug("Execution time: " + ((end-start)*1e-6) + " [ms]");
-       
+
+        logger.debug("Execution time: " + ((end - start) * 1e-6) + " [ms]");
+
     }
-    
-   
+
     /**
      * Genera el url de la imagen del territorio de un país específico.
-     * 
+     *
      * @param iso3 codigo iso3 del país objetivo
      * @return url de la imagen del territorio
      */
-    private synchronized String getImgUrl(String iso3){
+    private synchronized String getImgUrl(String iso3) {
         var isocode2 = LocaleUtils.iso3toIso2(iso3).toLowerCase();
-        return "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/" + isocode2+  "/256.png";
+        return "https://raw.githubusercontent.com/djaiss/mapsicon/master/all/" + isocode2 + "/256.png";
     }
-    
-    
-    
+
 }
