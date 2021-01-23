@@ -25,13 +25,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
- * 
+ *
  * CountryController - Controlador de la ventana que muestra datos por paises.
- * 
+ *
  * @author danae
  */
 public class CountryController implements Initializable {
@@ -42,20 +42,11 @@ public class CountryController implements Initializable {
     private ComboBox<OrdenBusqueda> cbxOrden;
 
     @FXML
-    private VBox nombreCol;
+    private GridPane gpInfo;
 
-    @FXML
-    private VBox casosCol;
-
-    @FXML
-    private VBox muertesCol;
-
-    @FXML
-    private VBox imgCol;
-    
     @FXML
     private Button btnConsulta;
-    
+
     @FXML
     private Node principal;
 
@@ -67,16 +58,15 @@ public class CountryController implements Initializable {
     }
 
     /**
-     * Ordena la lista paises, obtiene los 10 primeros e invoca a la función que muestra la información.
+     * Ordena la lista paises, obtiene los 10 primeros e invoca a la función que
+     * muestra la información.
+     *
      * @param event
      */
     @FXML
     public void mostrarOrden(ActionEvent event) {
-        imgCol.getChildren().clear();
-        muertesCol.getChildren().clear();
-        casosCol.getChildren().clear();
-        nombreCol.getChildren().clear();
 
+        gpInfo.getChildren().clear();
         OrdenBusqueda orden = cbxOrden.getValue();
 
         switch (orden) {
@@ -87,12 +77,12 @@ public class CountryController implements Initializable {
                         return ((Integer) p1.getCasos()).compareTo(p2.getCasos());
                     }
                 }.reversed());
-                
+
                 for (int i = 1; i < 11; i++) {
-                    mostrarPais(paises.get(i));
+                    mostrarPais(paises.get(i), i);
                 }
                 break;
-                
+
             case MUERTES:
                 Collections.sort(paises, new Comparator<Pais>() {
                     @Override
@@ -100,9 +90,9 @@ public class CountryController implements Initializable {
                         return ((Integer) p1.getMuertes()).compareTo(p2.getMuertes());
                     }
                 }.reversed());
- 
+
                 for (int i = 1; i < 11; i++) {
-                    mostrarPais(paises.get(i));
+                    mostrarPais(paises.get(i), i);
                 }
                 break;
 
@@ -111,38 +101,40 @@ public class CountryController implements Initializable {
 
     /**
      * Método encargado de mostrar la información de cada país.
-     * 
+     *
      * @param pais
+     * @param i
      */
-    public void mostrarPais(Pais pais) {
+    public void mostrarPais(Pais pais, int i) {
         ImageView imgView = null;
 
         try (FileInputStream input = new FileInputStream(App.FLAGS_PATH + "/" + pais.getNombre().toLowerCase() + ".png")) {
-            Image image = new Image(input,50,34,false,false);
+            Image image = new Image(input, 50, 34, false, false);
             imgView = new ImageView(image);
         } catch (IOException ex) {
             new Alert(Alert.AlertType.WARNING, "Existen problemas técnicos. Vuelva a intentarlo más tarde.").showAndWait();
         }
 
-        nombreCol.getChildren()
-                .add(new Label(pais.getNombre()));
-        casosCol.getChildren()
-                .add(new Label(String.valueOf(pais.getCasos())));
-        muertesCol.getChildren()
-                .add(new Label(String.valueOf(pais.getMuertes())));
-        imgCol.getChildren()
-                .add(imgView);
+        Label lblnombre = new Label(pais.getNombre());
+        Label lblCasos = new Label(String.valueOf(pais.getCasos()));
+        Label lblMuertes = new Label(String.valueOf(pais.getMuertes()));
+
+        gpInfo.addRow(i);
+        gpInfo.add(imgView, 0, i);
+        gpInfo.add(lblnombre, 1, i);
+        gpInfo.add(lblMuertes, 2, i);
+        gpInfo.add(lblCasos, 3, i);
 
     }
-    
+
     /**
-     * Método que muestra la nueva ventana al momento de presionar el botón de consulta. 
+     * Método que muestra la nueva ventana al momento de presionar el botón de
+     * consulta.
      */
     @FXML
-    public void consultaAction(){
+    public void consultaAction() {
         var windowStage = (Stage) principal.getScene().getWindow();
         App.setRoot(windowStage, "dashboard", "Dashboard", 600, 800);
     }
-    
-    
+
 }
