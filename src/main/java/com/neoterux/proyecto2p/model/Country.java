@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,43 +27,93 @@ import java.util.List;
  */
 public class Country implements Comparable<Country> {
 
+
+    
+    
+    private static final Logger logger = LogManager.getLogger(Country.class);
+    /**
+     * lista de los paises cargados desde los archivos
+     */
+    private static List<Country> countries;
+    /**
+     * Orden de búsqueda para el método {@link #compareTo(Country), por defecto tiene el valor {@Value CASOS}
+     */
+    private static OrdenBusqueda orden = OrdenBusqueda.CASOS;
+    
+    private final String name;
+    private int cases;
+    private int totalDeaths;
+
+    /**
+     * Crea un nuevo objeto Country únicamente con su nombre.
+     *
+     * @param name nombre del país
+     */
+    public Country (String name){
+        this.name = name;
+    }
+
+    /**
+     * Crea un nuevo objeto Country con todos los datos del país.
+     *
+     * @param name nombre del pais
+     * @param cases total de casos del pais
+     * @param totalDeaths total de muertes del pais
+     */
+    public Country (String name, int cases, int totalDeaths) {
+        this(name);
+        this.cases = cases;
+        this.totalDeaths = totalDeaths;
+    }
+
+    /**
+     * Campara con el pais objetivo el total de muertes o total de casos, según se especifique
+     * con el objeto {@link Country#orden}.
+     *
+     * @param t país objetivo
+     * @return -1 si el valor del objetivo es menor al objeto actual,
+     * 0 si el valor es igual al del objeto actual,
+     * 1 si el valor es mayor al del objeto actual.
+     */
+    @Override
+    public int compareTo(Country t) {
+        switch (orden){
+            case CASOS:
+                if (this.cases == t.cases){
+                    return 0;
+                }else if (this.cases < t.cases){
+                    return 1;
+                }
+                return -1;
+
+            case MUERTES:
+                if (this.totalDeaths == t.totalDeaths){
+                    return 0;
+                }else if (this.totalDeaths < t.totalDeaths){
+                    return 1;
+                }
+                return -1;
+            default:
+                return -2;
+        }
+    }
+
+    /**
+     * Coloca el valor de de orden de búsqueda para el {@link #compareTo(Country)}.
+     *
+     * @param ordenBusqueda nuevo orden de búsqueda a realizar
+     */
+    public static void setOrder(OrdenBusqueda ordenBusqueda){
+        orden = ordenBusqueda;
+    }
+
     /**
      * @return the name
      */
     public String getName() {
         return name;
     }
-    
-    
-    private static final Logger logger = LogManager.getLogger(Country.class);
-    private static List<Country> countries;
-    
-    
-    private final String name;
-    private int cases;
-    private int totalDeaths;
-    
-    public Country (String name){
-        this.name = name;
-    }
-    
-    public Country (String name, int cases, int totalDeaths) {
-        this(name);
-        this.cases = cases;
-        this.totalDeaths = totalDeaths;
-    }
-    
-    
-        
 
-    @Override
-    public int compareTo(Country t) {
-        // Impelementar para ....
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return 0;
-    }
-    
-    
     @Override 
     public String toString() {
         return this.getName();
@@ -107,10 +158,16 @@ public class Country implements Comparable<Country> {
                             // This can cause stackOverflow
                             // but with the max countries number is 196
                             // I think that this doesnt represent high memory usage
+                            System.out.println(Arrays.toString(data));
                             var c = cmap.get(data[0]);
-                            c.cases = Integer.parseInt(data[1]);
-                            c.totalDeaths = Integer.parseInt(data[2]);
-                            
+                            if (c != null ) {
+                                c.cases = Integer.parseInt(data[1]);
+                                if (data.length < 3) {
+                                    c.totalDeaths = 0;
+                                } else {
+                                    c.totalDeaths = Integer.parseInt(data[2]);
+                                }
+                            }
                         });
                 
             }catch (FileNotFoundException fnf){
