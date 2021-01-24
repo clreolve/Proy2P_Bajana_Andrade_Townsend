@@ -175,11 +175,10 @@ public class App extends Application {
             targetWindow.setScene(new Scene(root, minWidth, minHeight));
         }catch (LoadException le){
             logger.error("Hay un error en el fxml, por favor revisa el archivo", le);
-        }
-        catch (IOException ioe){
-            logger.error("IOException ocurred when reading fxml: ", ioe);
         }catch (IllegalStateException ise){
             logger.error("fxml name/location is bad, or cannot locate fxml in ui folder: ", ise);
+        }catch (IOException ioe){
+            logger.error("IOException ocurred when reading fxml: ", ioe);
         }finally{
             targetWindow.setTitle(title);
         }
