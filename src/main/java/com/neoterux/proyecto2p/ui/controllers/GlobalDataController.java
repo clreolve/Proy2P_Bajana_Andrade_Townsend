@@ -7,12 +7,10 @@ package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Country;
-import com.neoterux.proyecto2p.model.Pais;
+
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.zip.CheckedOutputStream;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
