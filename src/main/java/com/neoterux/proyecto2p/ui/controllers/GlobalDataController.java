@@ -7,11 +7,6 @@ package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Country;
-
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -19,6 +14,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * GlobalDataController - Controlador de la ventana que muestra datos globales.
@@ -45,9 +44,7 @@ public class GlobalDataController implements Initializable{
      */
     @FXML
     public void consultaPais(){
-        Stage contryStg = App.newWindow("ui/countryData", 620, 550);
-        contryStg.setTitle("Ordenar paises");
-        contryStg.showAndWait();
+        App.setRoot((Stage)numGlobalCases.getScene().getWindow(), "countryData", "Ordenar paises",550, 620);
         
     }
     
