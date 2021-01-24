@@ -44,7 +44,7 @@ and open the template in the editor.
 
 .data {
     -fx-font-size: 14px;
-    -fx-font-weight: semibold;
+    -fx-font-weight: bold;
 }
 
 .combo-box-base {

@@ -109,7 +109,7 @@ public class CountryController implements Initializable {
     @FXML
     public void consultaAction() {
         var windowStage = (Stage) principal.getScene().getWindow();
-        App.setRoot(windowStage, "dashboard", "Dashboard", 600, 800);
+        App.setRoot(windowStage, "dashboard", "Dashboard", 450, 683);
     }
 
 }

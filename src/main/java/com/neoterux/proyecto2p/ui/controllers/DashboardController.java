@@ -177,7 +177,7 @@ public class DashboardController implements Initializable, Runnable {
     void onPoblationClick(MouseEvent event) {
         logger.debug("Poblation clicked");
 
-        var dlgController = App.showAndGetController("poblation_data", 340, 300, false);
+        var dlgController = App.showAndGetController("poblation_data", 340, 310, false);
 
         ((PoblationDataController) dlgController).sendData(lastData);
 
