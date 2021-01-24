@@ -55,10 +55,28 @@ public class PoblationDataController implements Initializable, Runnable{
      * @param data información a enviar.
      */
     public void sendData(String[] data){
-        this.lblPromAge.setText(data[10]);
-        this.lblLifespe.setText(data[12]);
-        this.lblIdx.setText(data[11]);
-        this.lblDensity.setText(data[9]);
+        confirmData(lblPromAge, data[10]);
+        //this.lblPromAge.setText(data[10]);
+        confirmData(lblLifespe, data[12]);
+        //this.lblLifespe.setText(data[12]);
+        confirmData(lblIdx, data[11]);
+        //this.lblIdx.setText(data[11]);
+        confirmData(lblDensity, data[9]);
+        //this.lblDensity.setText(data[9]);
+    }
+
+    /**
+     * Reemplaza el texto vacío por '--' para colocar en el label target.
+     *
+     * @param target label al que se le va a colocar el texto.
+     * @param input string a colocar
+     */
+    private void confirmData(Label target, String input){
+        if (input.isBlank()){
+            input = "--";
+        }
+        target.setText(input);
+
     }
     
     /**
