@@ -6,6 +6,7 @@
 package com.neoterux.proyecto2p.model;
 
 import com.neoterux.proyecto2p.App;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,7 +86,8 @@ public class Point implements Serializable {
                 logger.info("lugares.txt successfully readed");
             } catch (FileNotFoundException fnf) {
                 logger.error("archivo lugares.txt no se encuentra en la capeta data");
-                new Alert(Alert.AlertType.ERROR, "Archivo lugares.txt no se encuentra en la carpeta data.").showAndWait();
+                new Alert(Alert.AlertType.ERROR, "Archivo lugares.txt no se encuentra en la carpeta data, cerrando.").showAndWait();
+                Platform.exit();
             } catch (IOException ioe) {
                 logger.error("IOException ocured when trying to read lugares.txt", ioe);
             }

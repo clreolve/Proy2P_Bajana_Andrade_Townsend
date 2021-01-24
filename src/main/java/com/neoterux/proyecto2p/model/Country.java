@@ -6,6 +6,8 @@
 package com.neoterux.proyecto2p.model;
 
 import com.neoterux.proyecto2p.App;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -170,6 +172,8 @@ public class Country implements Comparable<Country> {
                 
             }catch (FileNotFoundException fnf){
                 logger.error("globales.csv not found in data folder");
+                new Alert(Alert.AlertType.ERROR, "Archivo globales.csv no se encuentra en la carpeta data, cerrando.").showAndWait();
+                Platform.exit();
             }catch (IOException ioe) {
                 logger.error("An IOException ocurred when trying to read globales.csv file ", ioe); 
             }

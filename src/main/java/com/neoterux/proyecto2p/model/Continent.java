@@ -6,6 +6,8 @@
 package com.neoterux.proyecto2p.model;
 
 import com.neoterux.proyecto2p.App;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -60,6 +62,10 @@ public class Continent {
                 
                 
                 
+            }catch (FileNotFoundException fnf) {
+                logger.error("no se encontro el archivo continentes.txt.", fnf);
+                new Alert(Alert.AlertType.ERROR, "Archivo continentes.txt no se encuentra en la carpeta data, cerrando.").showAndWait();
+                Platform.exit();
             }catch (IOException ioe) {
                 logger.error("Error at reading file continentes.txt ", ioe);
             } catch (Exception e){

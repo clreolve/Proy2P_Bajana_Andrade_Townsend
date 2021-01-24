@@ -13,6 +13,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.util.Pair;
@@ -141,6 +142,10 @@ public class MainController extends DownloadTask implements Initializable {
     public void onError(IOException ex) {
         if (ex instanceof FileNotFoundException){
             logger.error("file not found", ex);
+            Platform.runLater(() ->{
+                    new Alert(Alert.AlertType.ERROR, "No se encuentra el dataset owid-covid-data_.csv en la carpeta Data, cerrando").showAndWait();
+                    Platform.exit();
+            });
         }else {
             logger.error("unknown IOException ocurred on downloadThread", ex);
         }
