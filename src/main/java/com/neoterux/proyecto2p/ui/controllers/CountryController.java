@@ -8,7 +8,7 @@ package com.neoterux.proyecto2p.ui.controllers;
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Country;
 import com.neoterux.proyecto2p.model.OrdenBusqueda;
-import com.neoterux.proyecto2p.model.Pais;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
