@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.LoadException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -305,6 +306,7 @@ public class App extends Application {
             nstage.setMinWidth(minwidth);
             nstage.setMinHeight(minheight);
             nstage.initOwner(mainStage);
+            nstage.initModality(Modality.WINDOW_MODAL);
             return nstage;
         }catch (LoadException le){
             logger.error("Hay un error en el archivo fxml ", le);

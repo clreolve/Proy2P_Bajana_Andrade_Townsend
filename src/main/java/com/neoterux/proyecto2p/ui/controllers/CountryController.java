@@ -8,12 +8,6 @@ package com.neoterux.proyecto2p.ui.controllers;
 import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Country;
 import com.neoterux.proyecto2p.model.OrdenBusqueda;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,6 +20,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -109,7 +110,10 @@ public class CountryController implements Initializable {
     @FXML
     public void consultaAction() {
         var windowStage = (Stage) principal.getScene().getWindow();
-        App.setRoot(windowStage, "dashboard", "Dashboard", 450, 683);
+        var nw = App.newWindow("ui/dashboard", 683, 450);
+        nw.setTitle("Dashboard");
+        nw.show();
+        windowStage.close();
     }
 
 }
