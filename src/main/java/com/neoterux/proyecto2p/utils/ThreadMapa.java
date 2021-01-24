@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
+import java.util.stream.Collectors;
+
 /**
  *
  * @author luis_
@@ -41,9 +43,16 @@ public class ThreadMapa implements Runnable {
     @Override
     public void run() {
         Counter contador = new Counter(0);
+        double rsec = 0;
+        do{
+            rsec = Math.random() * 10000;
+        }while (rsec == 0);
+
         var matches = Point.loadPoints().stream()
                 .filter(point -> Point.distancia(point, c_pos) <= 100)
-                .peek(point -> {
+                .collect(Collectors.toList());
+        var sec = rsec / (double)matches.size();
+        matches.forEach(point -> {
                     try {
                         var infected = new Mark("rgb(0,50,200)").getPath();
                         infected.setTranslateX(point.getX() - x_offset);
@@ -54,12 +63,12 @@ public class ThreadMapa implements Runnable {
                             texto.setText("Se han encontrado " + contador.toString() + " personas cercanas a tu ubicacion que han registrado positivos");
 
                         });
-                        
-                        Thread.sleep((long) (Math.random() * 1));
+
+                        Thread.sleep((long) sec);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
-                }).count();
+                });
         Platform.runLater(() -> {
             btn_registrar.setDisable(false);
         });
