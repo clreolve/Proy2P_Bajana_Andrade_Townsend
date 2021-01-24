@@ -10,10 +10,7 @@ import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +22,10 @@ import java.util.List;
  *
  * @author neoterux
  */
-public class Point {
-    
+public class Point implements Serializable {
+
+    private static final long serialVersionUID = 222233334444l;
+
     private static final Logger logger = LogManager.getLogger(Point.class);
     private static List<Point> points;
     
