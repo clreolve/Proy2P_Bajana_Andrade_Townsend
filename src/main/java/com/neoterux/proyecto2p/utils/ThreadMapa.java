@@ -54,13 +54,14 @@ public class ThreadMapa implements Runnable {
         do{
             rsec = Math.random() * 10000;
         }while (rsec == 0);
-
+        Platform.runLater(() -> texto.setText("Iniciando búsqueda..."));
         var matches = Point.loadPoints().stream()
                 .filter(point -> Point.distancia(point, c_pos) <= 100)
                 .collect(Collectors.toList());
         var sec = rsec / (double)matches.size();
         matches.forEach(point -> {
                     try {
+                        Thread.sleep((long) sec);
                         var infected = new Mark("rgb(0,50,200)").getPath();
                         infected.setTranslateX(point.getX() - x_offset);
                         infected.setTranslateY(point.getY() - y_offset);
@@ -70,8 +71,6 @@ public class ThreadMapa implements Runnable {
                             texto.setText("Se han encontrado " + contador.toString() + " personas cercanas a tu ubicacion que han registrado positivos");
 
                         });
-
-                        Thread.sleep((long) sec);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
