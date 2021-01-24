@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 public class VentanaMapaController implements Initializable, Serializable {
 
     File archivo = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
-    File archivo_deserealizado;
 
     FileWriter fw = null;
     BufferedWriter bw = null;
