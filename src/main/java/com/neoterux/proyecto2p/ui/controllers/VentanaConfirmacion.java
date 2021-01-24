@@ -5,6 +5,7 @@
  */
 package com.neoterux.proyecto2p.ui.controllers;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -70,7 +71,7 @@ public class VentanaConfirmacion {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(titulo, texto, aviso, layout_btn);
         layout.setAlignment(Pos.CENTER);
-
+        layout.setPadding(new Insets(0, 10, 0, 10));
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();

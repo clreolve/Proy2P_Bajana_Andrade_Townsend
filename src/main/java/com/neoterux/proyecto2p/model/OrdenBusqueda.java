@@ -6,6 +6,7 @@
 package com.neoterux.proyecto2p.model;
 
 /**
+ * <p>Enum que permite clasificar el orden de búsqueda.</p>
  *
  * @author danae
  */

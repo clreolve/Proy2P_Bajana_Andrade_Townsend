@@ -69,11 +69,23 @@ public class MainController extends DownloadTask implements Initializable {
        // App.setRoot("VentanaMapa", "Datos locales", 600, 680);
     }
 
+    /**
+     * Devuelve el url de la bandera.
+     *
+     * @param iso_code codigo iso del pais.
+     * @return url de la bandera.
+     */
     private synchronized static String getFlagUrl(String iso_code) {
 
         return "https://www.countryflags.io/" + iso_code + "/flat/64.png";
     }
 
+    /**
+     * Guarda la imagen de la bandera.
+     *
+     * @param target imagen a guardar
+     * @param imgFile puntero del archivo a guardar.
+     */
     private synchronized static void saveImage(Image target, File imgFile) {
         try {
 

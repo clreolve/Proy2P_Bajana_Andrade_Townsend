@@ -15,19 +15,47 @@ import javafx.scene.layout.StackPane;
 import java.util.stream.Collectors;
 
 /**
+ * Thread que se encarga de llenar el StackPane con marcas.
  *
  * @author luis_
  */
 public class ThreadMapa implements Runnable {
 
     Thread t;
+    /**
+     * Label que contiene el texto informativo
+     */
     Label texto;
+    /**
+     * Stackpane donde se colocarán las marcas
+     */
     StackPane area_interactiva;
+    /**
+     * Posición del puntero
+     */
     Point c_pos;
+    /**
+     * valor para corregir la posición de las marcas en x
+     */
     double x_offset;
+    /**
+     * valor para corregir la posición de las marcas en y
+     */
     double y_offset;
+    /**
+     * Boton para registrar el punto seleccionado.
+     */
     Button btn_registrar;
 
+    /**
+     * Crea un nuevo ThreadMapa
+     * @param texto Label que contiene el texto informativo
+     * @param area_interactiva Stackpane donde se colocarán las marcas
+     * @param c_pos Posición del puntero
+     * @param x_offset valor para corregir en x
+     * @param y_offset valor para corregir en y
+     * @param btn_registrar boton para registar punto seleccionado.
+     */
     public ThreadMapa(Label texto, StackPane area_interactiva, Point c_pos, double x_offset, double y_offset, Button btn_registrar) {
         this.texto = texto;
         this.area_interactiva = area_interactiva;
@@ -40,13 +68,25 @@ public class ThreadMapa implements Runnable {
         t.start();
     }
 
+    /**
+     * Verifica que el thread siga corriendo.
+     *
+     * @return true si el thread esta corriendo.
+     */
     public boolean isActive() {
         return t.isAlive();
     }
+
+    /**
+     * fuerza la finalización del thread.
+     */
     public void terminate(){
         this.t.interrupt();
     }
 
+    /**
+     * Lógica donde se colocan las marcas y se calcula el delay entra cada una
+     */
     @Override
     public void run() {
         Counter contador = new Counter(0);
@@ -54,7 +94,11 @@ public class ThreadMapa implements Runnable {
         do{
             rsec = Math.random() * 10000;
         }while (rsec == 0);
-        Platform.runLater(() -> texto.setText("Iniciando búsqueda..."));
+        Platform.runLater(() -> {
+            texto.setStyle("-fx-text-fill: rgb(256, 150, 50);" +
+                            "-fx-font-size: 13px;");
+            texto.setText("Iniciando búsqueda...");
+        });
         var matches = Point.loadPoints().stream()
                 .filter(point -> Point.distancia(point, c_pos) <= 100)
                 .collect(Collectors.toList());

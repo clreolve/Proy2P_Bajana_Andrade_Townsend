@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
+ * Controlador de la ventana de descarga
  *
  * @author neoterux
  */

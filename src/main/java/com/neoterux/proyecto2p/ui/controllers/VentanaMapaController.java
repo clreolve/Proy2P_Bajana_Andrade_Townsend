@@ -26,12 +26,13 @@ import java.util.ResourceBundle;
  * @author AndradeLuis
  */
 public class VentanaMapaController implements Initializable {
-
+    /**
+     * Archivo lugares.txt donde se encuentran los puntos registrados positivo.
+     */
     File archivo = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
 
     FileWriter fw = null;
     BufferedWriter bw = null;
-    PrintWriter pw = null;
 
     private ThreadMapa t;
 

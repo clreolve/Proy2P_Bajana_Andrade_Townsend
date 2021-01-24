@@ -28,13 +28,27 @@ import java.util.List;
  * @author neoterux
  */
 public class Continent {
-    
+
+    /**
+     * Lista que contiene los contienentes cargados de archivos.
+     */
     private static List<Continent> continentes;
     private static final Logger logger = LogManager.getLogger(Continent.class);
-    
+
+    /**
+     * Nombre del continente
+     */
     private String name;
+    /**
+     * Lista con los paises pertenecientes a este continente
+     */
     private final List<Country> countries;
 
+    /**
+     * Crea un nuevo objeto continente
+     *
+     * @param name nombre del continente
+     */
     public Continent(String name) {
         countries = new ArrayList<>();
         this.name = name;

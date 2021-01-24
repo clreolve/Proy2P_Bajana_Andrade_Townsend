@@ -17,7 +17,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,9 +27,6 @@ import java.util.List;
  * @author neoterux
  */
 public class Country implements Comparable<Country> {
-
-
-    
     
     private static final Logger logger = LogManager.getLogger(Country.class);
     /**
@@ -41,9 +37,18 @@ public class Country implements Comparable<Country> {
      * Orden de búsqueda para el método {@link #compareTo(Country), por defecto tiene el valor {@Value CASOS}
      */
     private static OrdenBusqueda orden = OrdenBusqueda.CASOS;
-    
+
+    /**
+     * Nombre del país
+     */
     private final String name;
+    /**
+     * Total de casos
+     */
     private int cases;
+    /**
+     * Total de muertes
+     */
     private int totalDeaths;
 
     /**
@@ -116,6 +121,10 @@ public class Country implements Comparable<Country> {
         return name;
     }
 
+    /**
+     *
+     * @return nombre del país
+     */
     @Override 
     public String toString() {
         return this.getName();

@@ -28,28 +28,63 @@ public class Point implements Serializable {
     private static final long serialVersionUID = 222233334444l;
 
     private static final Logger logger = LogManager.getLogger(Point.class);
+    /**
+     * Lista de puntos cargados del archivo.
+     */
     private static List<Point> points;
-    
+
+    /**
+     * Coordenada x
+     */
     private double x;
+    /**
+     * Coordenada y
+     */
     private double y;
-    
+
+    /**
+     * Crea un nuevo objeto punto con sus respectivas coordenadas.
+     *
+     * @param x coordenada x.
+     * @param y coordenada y.
+     */
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
-    
+
+    /**
+     * obtiene la coordenada x del punto
+     *
+     * @return coordenada x.
+     */
     public double getX() {
         return this.x;
     }
-    
+
+    /**
+     * Obtiene la coordenada y del punto.
+     *
+     * @return coordenada y.
+     */
     public double getY() {
         return this.y;
     }
-    
+
+    /**
+     * Coloca la coordenada x
+     *
+     * @param x coordenada x
+     */
     public void setX(double x) {
         this.x = x;
     }
-    
+
+    /**
+     * Coloca la coordenada y
+     *
+     * @param y coordenada y
+     */
     public void setY(double y) {
         this.y = y;
     }
