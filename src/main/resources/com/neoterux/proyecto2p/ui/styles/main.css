@@ -9,7 +9,6 @@ and open the template in the editor.
 */
 
 .root {
-    
     -fx-background-image: url("../res/main_background.jpg");
     -fx-background-position: center center;
     -fx-background-repeat: no-repeat;
@@ -17,18 +16,20 @@ and open the template in the editor.
 }
 
 .title {
-    
-    -fx-font-size: 24px;
+    -fx-font-size: 25px;
     -fx-text-fill: #67C322;
-    -fx-font-weight: bold; 
+    -fx-font-weight: bold;
+}
 
-    
+.title .text {
+    -fx-stroke-width: 1px;
+    -fx-stroke: rgb(40, 200, 10);
 }
 
 .subtitle {
-    -fx-font-sixe: 18px;
+    -fx-font-size: 15px;
     -fx-text-fill: white;
-    -fx-font-weight: 600;
+    -fx-font-weight: bold;
 }
 
 
@@ -37,4 +38,5 @@ and open the template in the editor.
     -fx-text-fill: white;
     -fx-background-color: #303030;
     -fx-background-radius: 30px;
+    -fx-font-size: 14px;
 }
