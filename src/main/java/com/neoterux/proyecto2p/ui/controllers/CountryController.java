@@ -6,15 +6,14 @@
 package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
+import com.neoterux.proyecto2p.model.Country;
 import com.neoterux.proyecto2p.model.OrdenBusqueda;
 import com.neoterux.proyecto2p.model.Pais;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,7 +35,7 @@ import javafx.stage.Stage;
  */
 public class CountryController implements Initializable {
 
-    ArrayList<Pais> paises = Pais.cargarPaises();
+    private List<Country> paises = Country.get();
 
     @FXML
     private ComboBox<OrdenBusqueda> cbxOrden;
@@ -61,69 +60,45 @@ public class CountryController implements Initializable {
      * Ordena la lista paises, obtiene los 10 primeros e invoca a la función que
      * muestra la información.
      *
-     * @param event
+     * @param event action event
      */
     @FXML
     public void mostrarOrden(ActionEvent event) {
 
         gpInfo.getChildren().clear();
         OrdenBusqueda orden = cbxOrden.getValue();
+        Country.setOrder(orden);
+        Collections.sort(paises);
 
-        switch (orden) {
-            case CASOS:
-                Collections.sort(paises, new Comparator<Pais>() {
-                    @Override
-                    public int compare(Pais p1, Pais p2) {
-                        return ((Integer) p1.getCasos()).compareTo(p2.getCasos());
-                    }
-                }.reversed());
-
-                for (int i = 1; i < 11; i++) {
-                    mostrarPais(paises.get(i), i);
-                }
-                break;
-
-            case MUERTES:
-                Collections.sort(paises, new Comparator<Pais>() {
-                    @Override
-                    public int compare(Pais p1, Pais p2) {
-                        return ((Integer) p1.getMuertes()).compareTo(p2.getMuertes());
-                    }
-                }.reversed());
-
-                for (int i = 1; i < 11; i++) {
-                    mostrarPais(paises.get(i), i);
-                }
-                break;
-
+        for (int i = 0; i < 10; i++) {
+            mostrarPais(paises.get(i), i);
         }
     }
 
     /**
      * Método encargado de mostrar la información de cada país.
-     *
-     * @param pais
-     * @param i
+     *  @param pais país a agregar al table view
+     *  @param i indice de la fila.
      */
-    public void mostrarPais(Pais pais, int i) {
+    public void mostrarPais(Country pais, int i) {
         ImageView imgView = null;
 
-        try (FileInputStream input = new FileInputStream(App.FLAGS_PATH + "/" + pais.getNombre().toLowerCase() + ".png")) {
+        try (FileInputStream input = new FileInputStream(App.FLAGS_PATH + "/" + pais.getName().toLowerCase() + ".png")) {
             Image image = new Image(input, 50, 34, false, false);
             imgView = new ImageView(image);
         } catch (IOException ex) {
             new Alert(Alert.AlertType.WARNING, "Existen problemas técnicos. Vuelva a intentarlo más tarde.").showAndWait();
         }
 
-        Label lblnombre = new Label(pais.getNombre());
-        Label lblCasos = new Label(String.valueOf(pais.getCasos()));
-        Label lblMuertes = new Label(String.valueOf(pais.getMuertes()));
+        Label lblnombre = new Label(pais.getName());
+        Label lblCasos = new Label(String.valueOf(pais.getCases()));
+        Label lblMuertes = new Label(String.valueOf(pais.getTotalDeaths()));
 
         gpInfo.addRow(i);
         gpInfo.add(imgView, 0, i);
         gpInfo.add(lblnombre, 1, i);
-        gpInfo.add(lblMuertes, 2, i);
-        gpInfo.add(lblCasos, 3, i);
+        gpInfo.add(lblMuertes, 3, i);
+        gpInfo.add(lblCasos, 2, i);
 
     }
 
