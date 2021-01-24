@@ -155,11 +155,9 @@ public class Country implements Comparable<Country> {
                             * data[1]: Total cases
                             * data[2]: Total deaths
                             */
-                            // This can cause stackOverflow
-                            // but with the max countries number is 196
-                            // I think that this doesnt represent high memory usage
-                            System.out.println(Arrays.toString(data));
+
                             var c = cmap.get(data[0]);
+                            System.out.println(c);
                             if (c != null ) {
                                 c.cases = Integer.parseInt(data[1]);
                                 if (data.length < 3) {
