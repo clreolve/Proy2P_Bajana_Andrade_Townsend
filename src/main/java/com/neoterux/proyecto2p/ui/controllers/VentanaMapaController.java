@@ -55,7 +55,7 @@ public class VentanaMapaController implements Initializable, Serializable {
     public void botonRegistrar(ActionEvent event) {
         if (punto_principal != null) {
             boolean answer = VentanaConfirmacion.display();
-            if (answer == true) {
+            if (answer) {
                 texto.setText("Registro realizado exitosamente");
                 texto.setStyle("-fx-text-fill:green;");
                 RegistroDatos();
