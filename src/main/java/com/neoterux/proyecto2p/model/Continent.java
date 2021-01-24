@@ -128,6 +128,10 @@ public class Continent {
                             
                             if (c != null) {
                                 c.getCountries().add(new Country(data[1]));
+                            }else{
+                                var nullContinent = new Continent("");
+                                continentes.add(nullContinent);
+                                nullContinent.getCountries().add(new Country(data[1]));
                             }
                             
                         });
