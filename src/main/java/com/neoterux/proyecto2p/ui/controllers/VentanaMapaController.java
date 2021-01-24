@@ -21,6 +21,11 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 //Autor: AndradeLuis
 
+/**
+ * Controlador de la ventana con mapa.
+ *
+ * @author AndradeLuis
+ */
 public class VentanaMapaController implements Initializable, Serializable {
 
     File archivo = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
@@ -29,12 +34,7 @@ public class VentanaMapaController implements Initializable, Serializable {
     BufferedWriter bw = null;
     PrintWriter pw = null;
 
-    private final Image usuario = new Image(App.resourceFrom(App.class, "ui/res/marcador_persona.png").toExternalForm());
-    private final Image virus = new Image(App.resourceFrom(App.class, "ui/res/marcador_virus.png").toExternalForm());
-
     private Point punto_principal;
-
-    private ImageView marcador;
 
     @FXML
     private StackPane area_interactiva;
@@ -51,6 +51,11 @@ public class VentanaMapaController implements Initializable, Serializable {
     @FXML
     private Label texto;
 
+    /**
+     * Acción que se ejecuta cuando se presiona le boton registrar
+     *
+     * @param event action event
+     */
     public void botonRegistrar(ActionEvent event) {
         if (punto_principal != null) {
             boolean answer = VentanaConfirmacion.display();
@@ -66,6 +71,9 @@ public class VentanaMapaController implements Initializable, Serializable {
         }
     }
 
+    /**
+     * Acción que se realiza al ejecutar el boton cerrar
+     */
     public void botonCerrar() {
         texto.setText("Otro boton Oprimido");
         Stage stage = (Stage) btn_cerrar.getScene().getWindow();
@@ -79,11 +87,13 @@ public class VentanaMapaController implements Initializable, Serializable {
 
     }
 
+    /**
+     * Realiza las preparaciones para colocar las marcas
+     */
     public void coordenadas() {
 
-        double x_offset = Math.ceil(area_interactiva.getPrefWidth() / 2) * 0 + 170d;
-        double y_offset = Math.floor(area_interactiva.getPrefHeight() / 2) + 15d;
-        System.out.println("Area interactiva x: " + area_interactiva.getPrefWidth() + " y: " + area_interactiva.getPrefHeight());
+        double x_offset = area_interactiva.getPrefHeight() / 2 ;
+        double y_offset = Math.floor(area_interactiva.getPrefHeight() / 2) + 11d;
 
         mapa.setPickOnBounds(true); // Esto permite la deteccion de clicks en la imagen
         mapa.setOnMouseClicked(e -> {
@@ -104,11 +114,15 @@ public class VentanaMapaController implements Initializable, Serializable {
         );
     }
 
+    /**
+     * Guarda el punto nuevo en el archivo lugares.txt
+     */
     public void RegistroDatos() {
         try {
             fw = new FileWriter(archivo,true);
             bw = new BufferedWriter(fw);
             bw.append("\n" + punto_principal.getX() + "-" + punto_principal.getY());
+            Point.loadPoints().add(punto_principal);
             bw.close();
             fw.close();
         } catch (IOException ex) {
@@ -116,11 +130,14 @@ public class VentanaMapaController implements Initializable, Serializable {
         }
     }
 
+    /**
+     * Serializa el archivo
+     */
     public void Serializar() {
         try {
             FileOutputStream fileOut = new FileOutputStream("data/lugares.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(archivo);
+            out.writeObject(Point.loadPoints());
             out.close();
             fileOut.close();
             System.out.println("Archivo guardado");
