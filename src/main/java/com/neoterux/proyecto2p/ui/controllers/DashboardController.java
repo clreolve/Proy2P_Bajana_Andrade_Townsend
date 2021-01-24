@@ -24,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -145,7 +146,7 @@ public class DashboardController implements Initializable, Runnable {
      */
     @FXML
     void exitAction(ActionEvent event) {
-        Platform.exit();
+        ((Stage)cLabel.getScene().getWindow()).close();
     }
 
     /**
