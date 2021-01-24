@@ -25,7 +25,7 @@ and open the template in the editor.
 .top-title {
     -fx-font-size: 20px;
     -fx-text-fill: #0c6a8e;
-    -fx-font-weight: 700;
+    -fx-font-weight: bold;
 }
 .data-box{
     -fx-border-radius: 7px;
@@ -39,7 +39,7 @@ and open the template in the editor.
 .title {
     -fx-font-size: 16px;
     -fx-text-fill : #5b0e12;
-    -fx-font-weight: 900;
+    -fx-font-weight: bold;
 }
 
 .data {
