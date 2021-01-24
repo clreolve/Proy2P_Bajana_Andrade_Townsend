@@ -6,10 +6,14 @@
 package com.neoterux.proyecto2p.ui.controllers;
 
 import com.neoterux.proyecto2p.App;
+import com.neoterux.proyecto2p.model.Country;
 import com.neoterux.proyecto2p.model.Pais;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.zip.CheckedOutputStream;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -56,15 +60,16 @@ public class GlobalDataController implements Initializable{
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {     
-        ArrayList<Pais> paises = Pais.cargarPaises();
-        
-        for(Pais p: paises){
-            if ( p.getNombre().equals("World")){
-                numGlobalCases.setText(String.valueOf(p.getCasos()));
-                numGlobalDeath.setText(String.valueOf(p.getMuertes()));          
+        List<Country> paises = Country.get();
+        Country t = null;
+        for(Country p: paises){
+            if ( p.getName().equals("World")){
+                t = p;
+                numGlobalCases.setText(String.valueOf(p.getCases()));
+                numGlobalDeath.setText(String.valueOf(p.getTotalDeaths()));
             }
         }
-        
+        paises.remove(t);
              
     }
     
