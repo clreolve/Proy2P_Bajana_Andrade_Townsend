@@ -9,7 +9,6 @@ import com.neoterux.proyecto2p.App;
 import com.neoterux.proyecto2p.model.Country;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -24,10 +23,13 @@ import java.util.ResourceBundle;
  * @author danae
  */
 public class GlobalDataController implements Initializable{
+
+    /**
+     * Contiene el recuento internacional de contagios
+     */
+    private static Country globalData;
     
-    private static Scene scene;
-    
-    @FXML 
+    @FXML
     private ImageView imgViewMap;
     
     @FXML
@@ -55,17 +57,19 @@ public class GlobalDataController implements Initializable{
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {     
-        List<Country> paises = Country.get();
-        Country t = null;
-        for(Country p: paises){
-            if ( p.getName().equals("World")){
-                t = p;
-                numGlobalCases.setText(String.valueOf(p.getCases()));
-                numGlobalDeath.setText(String.valueOf(p.getTotalDeaths()));
+
+        if ( globalData == null) {
+            List<Country> paises = Country.get();
+            for(Country p: paises){
+                if ( p.getName().equals("World")){
+                    globalData = p;
+                    break;
+                }
             }
+            paises.remove(globalData);
         }
-        paises.remove(t);
-             
+        numGlobalCases.setText(String.valueOf(globalData.getCases()));
+        numGlobalDeath.setText(String.valueOf(globalData.getTotalDeaths()));
     }
     
 
