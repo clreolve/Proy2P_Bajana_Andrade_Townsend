@@ -7,6 +7,7 @@ import com.neoterux.proyecto2p.utils.ThreadMapa;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -33,6 +34,8 @@ public class VentanaMapaController implements Initializable {
     FileWriter fw = null;
     BufferedWriter bw = null;
     PrintWriter pw = null;
+
+    private ThreadMapa t;
 
     private Point punto_principal;
 
@@ -77,6 +80,7 @@ public class VentanaMapaController implements Initializable {
     public void botonCerrar() {
         texto.setText("Otro boton Oprimido");
         Stage stage = (Stage) btn_cerrar.getScene().getWindow();
+        t.terminate();
         stage.close();
     }
 
@@ -97,19 +101,23 @@ public class VentanaMapaController implements Initializable {
 
         mapa.setPickOnBounds(true); // Esto permite la deteccion de clicks en la imagen
         mapa.setOnMouseClicked(e -> {
-            try {
-                area_interactiva.getChildren().remove(1, area_interactiva.getChildren().size());
-            } catch (IllegalArgumentException iae) {
-                System.out.println("error at removing");
-            }
+            if ( t== null || !t.isActive()){
+                try {
+                    area_interactiva.getChildren().remove(1, area_interactiva.getChildren().size());
+                } catch (IllegalArgumentException iae) {
+                    System.out.println("error at removing");
+                }
 
-            var c_pos = new Point(e.getX(), e.getY());
-            punto_principal = c_pos;
-            var user_mark = new Mark("rgb(200,50,0)").getPath();
-            user_mark.setTranslateX(c_pos.getX() - x_offset);
-            user_mark.setTranslateY(c_pos.getY() - y_offset);
-            this.area_interactiva.getChildren().add(user_mark);
-            ThreadMapa t = new ThreadMapa(texto, area_interactiva, c_pos, x_offset, y_offset, btn_registrar);
+                var c_pos = new Point(e.getX(), e.getY());
+                punto_principal = c_pos;
+                var user_mark = new Mark("rgb(200,50,0)").getPath();
+                user_mark.setTranslateX(c_pos.getX() - x_offset);
+                user_mark.setTranslateY(c_pos.getY() - y_offset);
+                this.area_interactiva.getChildren().add(user_mark);
+                t = new ThreadMapa(texto, area_interactiva, c_pos, x_offset, y_offset, btn_registrar);
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Espere a que termine de colocar las marcas.").show();
+            }
         }
         );
     }

@@ -40,6 +40,13 @@ public class ThreadMapa implements Runnable {
         t.start();
     }
 
+    public boolean isActive() {
+        return t.isAlive();
+    }
+    public void terminate(){
+        this.t.interrupt();
+    }
+
     @Override
     public void run() {
         Counter contador = new Counter(0);
