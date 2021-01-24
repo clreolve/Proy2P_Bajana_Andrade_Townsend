@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
  *
  * @author AndradeLuis
  */
-public class VentanaMapaController implements Initializable, Serializable {
+public class VentanaMapaController implements Initializable {
 
     File archivo = Paths.get(App.FILES_PATH.toString(), "lugares.txt").toFile();
 
