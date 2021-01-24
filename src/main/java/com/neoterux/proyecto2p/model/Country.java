@@ -159,7 +159,6 @@ public class Country implements Comparable<Country> {
                             */
 
                             var c = cmap.get(data[0]);
-                            System.out.println(c);
                             if (c != null ) {
                                 c.cases = Integer.parseInt(data[1]);
                                 if (data.length < 3) {
