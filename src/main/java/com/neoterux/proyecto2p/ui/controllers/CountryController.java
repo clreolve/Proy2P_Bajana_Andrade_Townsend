@@ -72,35 +72,9 @@ public class CountryController implements Initializable {
         Collections.sort(paises);
 
         for (int i = 0; i < 10; i++) {
-            mostrarPais(paises.get(i), i);
+            ShowCountryController sc = new ShowCountryController(paises.get(i));
+            sc.show(gpInfo, i);
         }
-    }
-
-    /**
-     * Método encargado de mostrar la información de cada país.
-     *  @param pais país a agregar al table view
-     *  @param i indice de la fila.
-     */
-    public void mostrarPais(Country pais, int i) {
-        ImageView imgView = null;
-
-        try (FileInputStream input = new FileInputStream(App.FLAGS_PATH + "/" + pais.getName().toLowerCase() + ".png")) {
-            Image image = new Image(input, 50, 34, false, false);
-            imgView = new ImageView(image);
-        } catch (IOException ex) {
-            new Alert(Alert.AlertType.WARNING, "Existen problemas técnicos. Vuelva a intentarlo más tarde.").showAndWait();
-        }
-
-        Label lblnombre = new Label(pais.getName());
-        Label lblCasos = new Label(String.valueOf(pais.getCases()));
-        Label lblMuertes = new Label(String.valueOf(pais.getTotalDeaths()));
-
-        gpInfo.addRow(i);
-        gpInfo.add(imgView, 0, i);
-        gpInfo.add(lblnombre, 1, i);
-        gpInfo.add(lblMuertes, 3, i);
-        gpInfo.add(lblCasos, 2, i);
-
     }
 
     /**
